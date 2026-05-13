@@ -2,6 +2,7 @@ using HomeCare.Models;
 using HomeCare.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using HomeCare.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,19 @@ builder.Services.AddDefaultIdentity<ApplicationUser>()
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
+
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+    await RoleSeeder.SeedRolesAsync(roleManager);
+
+    await AdminSeeder.SeedAdminAsync(userManager);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
