@@ -1,0 +1,11 @@
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace HomeCare.Models.Identity
+{
+    public class ApplicationUser : IdentityUser
+    {
+        public string? Address { get; set; }
+
+        public DateTime? LastLogin { get; set; }
+    }
+}
