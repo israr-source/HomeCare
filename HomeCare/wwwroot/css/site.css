@@ -20,3 +20,52 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+/* =========================
+   HomeCare Custom Styling
+========================= */
+
+body {
+    background-color: #f8f9fa;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(to right, #0d6efd, #0b5ed7);
+    color: white;
+    padding: 100px 20px;
+}
+
+/* Service Cards */
+.card {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-8px);
+    }
+
+.card-body {
+    padding: 30px 20px;
+}
+
+/* Buttons */
+.btn-primary {
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+/* Navbar Brand */
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+/* Footer */
+footer {
+    font-size: 0.95rem;
+}
