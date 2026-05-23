@@ -1,0 +1,101 @@
+﻿@model HomeCare.Models.Booking
+
+@{
+    ViewData["Title"] = "Book Service";
+}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="mb-4">
+                        Book Service
+                    </h2>
+
+                    <form asp-action="Create">
+
+                        <div asp-validation-summary="All"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Service
+                            </label>
+
+                            <select asp-for="ServiceId"
+                                    asp-items="ViewBag.Services"
+                                    class="form-select">
+
+                                <option value="">
+                                    -- Select Service --
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Address
+                            </label>
+
+                            <input asp-for="Address"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Booking Date
+                            </label>
+
+                            <input asp-for="BookingDate"
+                                   type="datetime-local"
+                                   class="form-control" />
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Notes
+                            </label>
+
+                            <textarea asp-for="Notes"
+                                      class="form-control">
+                            </textarea>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            Confirm Booking
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

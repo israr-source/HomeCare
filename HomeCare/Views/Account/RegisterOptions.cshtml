@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold">
+            Create an Account
+        </h1>
+
+        <p class="text-muted">
+            Choose how you want to use HomeCare.
+        </p>
+
+    </div>
+
+    <div class="row justify-content-center g-4">
+
+        <!-- Customer Card -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100 text-center">
+
+                <div class="card-body p-4">
+
+                    <h3 class="mb-3">
+                        Customer
+                    </h3>
+
+                    <p>
+                        Book home services quickly and easily.
+                    </p>
+
+                    <a asp-controller="Customer"
+                       asp-action="Register"
+                       class="btn btn-primary">
+
+                        Register as Customer
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Provider Card -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100 text-center">
+
+                <div class="card-body p-4">
+
+                    <h3 class="mb-3">
+                        Service Provider
+                    </h3>
+
+                    <p>
+                        Join HomeCare and offer your professional services.
+                    </p>
+
+                    <a asp-controller="Provider"
+                       asp-action="Register"
+                       class="btn btn-dark">
+
+                        Register as Provider
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
