@@ -11,5 +11,14 @@ namespace HomeCare.Models
             : base(options)
         {
         }
+
+        // CATEGORY TABLE
+        public DbSet<ServiceCategory> ServiceCategories { get; set; }
+
+        // SERVICE TABLE
+        public DbSet<Service> Services { get; set; }
+
+        // BOOKING TABLE
+        public DbSet<Booking> Bookings { get; set; }
     }
 }
