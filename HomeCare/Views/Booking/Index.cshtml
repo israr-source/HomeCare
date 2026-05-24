@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HomeCare.Models.Booking>
+
+@{
+    ViewData["Title"] = "My Bookings";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between mb-4">
+
+        <h2>My Bookings</h2>
+
+        <a asp-action="Create"
+           class="btn btn-primary">
+
+            Book Service
+
+        </a>
+
+    </div>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+
+            <tr>
+                <th>Service</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.Service?.Name</td>
+
+                    <td>@item.Address</td>
+
+                    <td>@item.BookingDate</td>
+
+                    <td>@item.Status</td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
