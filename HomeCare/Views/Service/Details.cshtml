@@ -1,0 +1,48 @@
+﻿@model HomeCare.Models.Service
+
+@{
+    ViewData["Title"] = "Service Details";
+}
+
+<div class="container py-5">
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h2>@Model.Name</h2>
+
+            <hr />
+
+            <p>
+                <strong>Category:</strong>
+                @Model.ServiceCategory?.Name
+            </p>
+
+            <p>
+                <strong>Price:</strong>
+                ৳@Model.Price
+            </p>
+
+            <p>
+                <strong>Description:</strong>
+            </p>
+
+            <p>
+                @Model.Description
+            </p>
+
+            <a asp-controller="Booking"
+               asp-action="Create"
+               asp-route-serviceId="@Model.Id"
+               class="btn btn-success">
+
+                Book Service
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,53 @@
+﻿@model HomeCare.Models.Review
+
+@{
+    ViewData["Title"] = "Leave Review";
+}
+
+<div class="container mt-5">
+
+    <h2>Leave Review</h2>
+
+    <form asp-action="Create">
+
+        <input type="hidden"
+               asp-for="BookingId" />
+
+        <div class="mb-3">
+
+            <label asp-for="Rating"
+                   class="form-label"></label>
+
+            <select asp-for="Rating"
+                    class="form-control">
+
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+
+            </select>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label asp-for="Comment"
+                   class="form-label"></label>
+
+            <textarea asp-for="Comment"
+                      class="form-control"></textarea>
+
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary">
+
+            Submit Review
+
+        </button>
+
+    </form>
+
+</div>

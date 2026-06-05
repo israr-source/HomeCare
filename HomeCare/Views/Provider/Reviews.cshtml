@@ -1,0 +1,99 @@
+﻿@model IEnumerable<HomeCare.Models.Review>
+
+@{
+    ViewData["Title"] = "Provider Reviews";
+}
+
+<div class="container py-5">
+
+    <h2 class="mb-4">
+        Provider Reviews
+    </h2>
+
+    <div class="row mb-4">
+
+        <div class="col-md-6">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h4>
+                        Average Rating
+                    </h4>
+
+                    <h2>
+                        @ViewBag.AverageRating
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h4>
+                        Total Reviews
+                    </h4>
+
+                    <h2>
+                        @ViewBag.TotalReviews
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <table class="table table-bordered">
+
+        <thead>
+
+            <tr>
+                <th>Customer</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Date</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @item.Customer?.FullName
+                    </td>
+
+                    <td>
+                        @item.Rating / 5
+                    </td>
+
+                    <td>
+                        @item.Comment
+                    </td>
+
+                    <td>
+                        @item.ReviewDate
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>

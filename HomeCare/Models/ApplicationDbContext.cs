@@ -20,5 +20,8 @@ namespace HomeCare.Models
 
         // BOOKING TABLE
         public DbSet<Booking> Bookings { get; set; }
+
+        // REVIEW TABLE
+        public DbSet<Review> Reviews { get; set; }
     }
 }

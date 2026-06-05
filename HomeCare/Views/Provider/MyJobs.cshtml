@@ -1,29 +1,21 @@
 ﻿@model IEnumerable<HomeCare.Models.Booking>
 
 @{
-    ViewData["Title"] = "My Bookings";
+    ViewData["Title"] = "My Jobs";
 }
 
 <div class="container py-5">
 
-    <div class="d-flex justify-content-between mb-4">
-
-        <h2>My Bookings</h2>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-
-            Book Service
-
-        </a>
-
-    </div>
+    <h2 class="mb-4">
+        My Accepted Jobs
+    </h2>
 
     <table class="table table-bordered table-striped">
 
         <thead>
 
             <tr>
+                <th>Customer</th>
                 <th>Service</th>
                 <th>Address</th>
                 <th>Date</th>
@@ -39,6 +31,8 @@
             {
                 <tr>
 
+                    <td>@item.Customer?.FullName</td>
+
                     <td>@item.Service?.Name</td>
 
                     <td>@item.Address</td>
@@ -49,16 +43,21 @@
 
                     <td>
 
-                        @if (item.Status == "Completed")
+                        @if (item.Status == "Accepted")
                         {
-                            <a asp-controller="Review"
-                               asp-action="Create"
-                               asp-route-bookingId="@item.Id"
-                               class="btn btn-warning btn-sm">
+                            <a asp-action="CompleteJob"
+                               asp-route-id="@item.Id"
+                               class="btn btn-primary btn-sm">
 
-                                Leave Review
+                                Complete Job
 
                             </a>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">
+                                Completed
+                            </span>
                         }
 
                     </td>

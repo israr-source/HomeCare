@@ -1,3 +1,71 @@
-﻿<h1>Admin Dashboard</h1>
+﻿@model HomeCare.ViewModels.AdminDashboardViewModel
 
-<p>Welcome Admin!</p>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container py-5">
+
+    <h2 class="mb-4">
+        Admin Dashboard
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Customers</h5>
+                    <h2>@Model.TotalCustomers</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Providers</h5>
+                    <h2>@Model.TotalProviders</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Services</h5>
+                    <h2>@Model.TotalServices</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Bookings</h5>
+                    <h2>@Model.TotalBookings</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Completed Jobs</h5>
+                    <h2>@Model.CompletedBookings</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Reviews</h5>
+                    <h2>@Model.TotalReviews</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

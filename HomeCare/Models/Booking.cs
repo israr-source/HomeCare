@@ -12,6 +12,12 @@ namespace HomeCare.Models
 
         public ApplicationUser? Customer { get; set; }
 
+        // ASSIGNED PROVIDER
+
+        public string? ProviderId { get; set; }
+
+        public ApplicationUser? Provider { get; set; }
+
         // SERVICE
         [Display(Name = "Service")]
         public int ServiceId { get; set; }

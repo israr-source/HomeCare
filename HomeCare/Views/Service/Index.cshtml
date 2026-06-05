@@ -19,6 +19,75 @@
 
     </div>
 
+    <form method="get" class="mb-4">
+
+        <div class="row g-2">
+
+            <div class="col-md-4">
+
+                <input type="text"
+                       name="searchTerm"
+                       value="@ViewBag.SearchTerm"
+                       class="form-control"
+                       placeholder="Search services..." />
+
+            </div>
+
+            <div class="col-md-4">
+
+                <select name="categoryId"
+                        class="form-select">
+
+                    <option value="">
+                        All Categories
+                    </option>
+
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        if (ViewBag.CategoryId != null && ViewBag.CategoryId == category.Id)
+                        {
+                            <option value="@category.Id" selected>
+                                @category.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@category.Id">
+                                @category.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+
+            <div class="col-md-2">
+
+                <button type="submit"
+                        class="btn btn-primary w-100">
+
+                    Search
+
+                </button>
+
+            </div>
+
+            <div class="col-md-2">
+
+                <a asp-action="Index"
+                   class="btn btn-secondary w-100">
+
+                    Clear
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </form>
+
     <table class="table table-bordered table-striped">
 
         <thead>
@@ -28,23 +97,51 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>Category</th>
+                <th>Action</th>
             </tr>
 
         </thead>
 
         <tbody>
 
-            @foreach (var item in Model)
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.Name</td>
+
+                        <td>@item.Description</td>
+
+                        <td>৳@item.Price</td>
+
+                        <td>@item.ServiceCategory?.Name</td>
+
+                        <td>
+
+                            <a asp-action="Details"
+                               asp-route-id="@item.Id"
+                               class="btn btn-info btn-sm">
+
+                                View Details
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
 
-                    <td>@item.Name</td>
+                    <td colspan="5" class="text-center">
 
-                    <td>@item.Description</td>
+                        No services found.
 
-                    <td>@item.Price</td>
-
-                    <td>@item.ServiceCategory?.Name</td>
+                    </td>
 
                 </tr>
             }

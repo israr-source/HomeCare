@@ -37,14 +37,22 @@ namespace HomeCare.Controllers
 
         // GET CREATE PAGE
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(int? serviceId)
         {
             ViewBag.Services = new SelectList(
                 _context.Services,
                 "Id",
-                "Name");
+                "Name",
+                serviceId);
 
-            return View();
+            var booking = new Booking();
+
+            if (serviceId.HasValue)
+            {
+                booking.ServiceId = serviceId.Value;
+            }
+
+            return View(booking);
         }
 
         // POST CREATE
