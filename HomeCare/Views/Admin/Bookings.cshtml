@@ -1,38 +1,26 @@
-﻿@model HomeCare.ViewModels.CustomerDashboardViewModel
+﻿@model IEnumerable<HomeCare.Models.Booking>
 
 @{
-    ViewData["Title"] = "Customer Dashboard";
+    ViewData["Title"] = "All Bookings";
 }
 
 <div class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-4">
+        Booking Management
+    </h2>
 
-        <h2>
-            Customer Dashboard
-        </h2>
+    <div class="row mb-4">
 
-        <a asp-controller="Service"
-           asp-action="Index"
-           class="btn btn-primary">
+        <div class="col-md-4">
 
-            Browse Services
-
-        </a>
-
-    </div>
-
-    <div class="row g-4">
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm">
+            <div class="card border-warning shadow-sm">
 
                 <div class="card-body text-center">
 
-                    <h6>Total Bookings</h6>
+                    <h5>Pending Bookings</h5>
 
-                    <h2>@Model.TotalBookings</h2>
+                    <h2>@ViewBag.PendingCount</h2>
 
                 </div>
 
@@ -40,19 +28,15 @@
 
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
 
-            <div class="card shadow-sm">
+            <div class="card border-primary shadow-sm">
 
                 <div class="card-body text-center">
 
-                    <h6>Pending</h6>
+                    <h5>Accepted Bookings</h5>
 
-                    <h2 class="text-warning">
-
-                        @Model.PendingBookings
-
-                    </h2>
+                    <h2>@ViewBag.AcceptedCount</h2>
 
                 </div>
 
@@ -60,39 +44,15 @@
 
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
 
-            <div class="card shadow-sm">
-
-                <div class="card-body text-center">
-
-                    <h6>Completed</h6>
-
-                    <h2 class="text-success">
-
-                        @Model.CompletedBookings
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm">
+            <div class="card border-success shadow-sm">
 
                 <div class="card-body text-center">
 
-                    <h6>Reviews Given</h6>
+                    <h5>Completed Bookings</h5>
 
-                    <h2>
-
-                        @Model.TotalReviews
-
-                    </h2>
+                    <h2>@ViewBag.CompletedCount</h2>
 
                 </div>
 
@@ -101,81 +61,43 @@
         </div>
 
     </div>
-
-    <hr class="my-5" />
-
-    <h4 class="mb-3">
-        Quick Actions
-    </h4>
-
-    <div class="mb-5">
-
-        <a asp-controller="Service"
-           asp-action="Index"
-           class="btn btn-primary me-2">
-
-            Browse Services
-
-        </a>
-
-        <a asp-controller="Booking"
-           asp-action="Index"
-           class="btn btn-success me-2">
-
-            My Bookings
-
-        </a>
-
-        <a asp-controller="Booking"
-           asp-action="Create"
-           class="btn btn-warning">
-
-            Book a Service
-
-        </a>
-
-    </div>
-
-    <h4 class="mb-3">
-
-        Recent Bookings
-
-    </h4>
 
     <table class="table table-bordered table-striped">
 
         <thead>
 
             <tr>
-
+                <th>Customer</th>
                 <th>Service</th>
-
+                <th>Address</th>
                 <th>Date</th>
-
                 <th>Status</th>
-
             </tr>
 
         </thead>
 
         <tbody>
 
-            @if (Model.RecentBookings.Any())
+            @if (Model.Any())
             {
-                foreach (var booking in Model.RecentBookings)
+                @foreach (var booking in Model)
                 {
                     <tr>
 
                         <td>
-
-                            @booking.Service?.Name
-
+                            @booking.Customer?.FullName
                         </td>
 
                         <td>
+                            @booking.Service?.Name
+                        </td>
 
+                        <td>
+                            @booking.Address
+                        </td>
+
+                        <td>
                             @booking.BookingDate
-
                         </td>
 
                         <td>
@@ -214,8 +136,7 @@
             {
                 <tr>
 
-                    <td colspan="3"
-                        class="text-center">
+                    <td colspan="5" class="text-center">
 
                         No bookings found.
 

@@ -4,6 +4,7 @@ using HomeCare.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeCare.Controllers
 {
@@ -58,9 +59,8 @@ namespace HomeCare.Controllers
         }
 
         // USER MANAGEMENT
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> Users(string searchTerm)
         {
-            // Load all users first to avoid DataReader issues
             var userList = _userManager.Users.ToList();
 
             var users = new List<UserListViewModel>();
@@ -78,7 +78,42 @@ namespace HomeCare.Controllers
                 });
             }
 
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                users = users
+                    .Where(u =>
+                        u.FullName.Contains(searchTerm,
+                            StringComparison.OrdinalIgnoreCase)
+                        ||
+                        u.Email.Contains(searchTerm,
+                            StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            ViewBag.SearchTerm = searchTerm;
+
             return View(users);
+        }
+
+        // BOOKING MANAGEMENT
+        public IActionResult Bookings()
+        {
+            var bookings = _context.Bookings
+                .Include(b => b.Customer)
+                .Include(b => b.Service)
+                .OrderByDescending(b => b.BookingDate)
+                .ToList();
+
+            ViewBag.PendingCount =
+                bookings.Count(b => b.Status == "Pending");
+
+            ViewBag.AcceptedCount =
+                bookings.Count(b => b.Status == "Accepted");
+
+            ViewBag.CompletedCount =
+                bookings.Count(b => b.Status == "Completed");
+
+            return View(bookings);
         }
     }
 }

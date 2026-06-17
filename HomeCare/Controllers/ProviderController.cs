@@ -61,9 +61,34 @@ namespace HomeCare.Controllers
         }
 
         [Authorize(Roles = "Provider")]
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            return View();
+            var provider = await _userManager.GetUserAsync(User);
+
+            var bookings = _context.Bookings
+                .Where(b => b.ProviderId == provider.Id)
+                .ToList();
+
+            var reviews = _context.Reviews
+                .Where(r => r.ProviderId == provider.Id)
+                .ToList();
+
+            var model = new ProviderDashboardViewModel
+            {
+                PendingJobs = bookings.Count(b => b.Status == "Pending"),
+
+                AcceptedJobs = bookings.Count(b => b.Status == "Accepted"),
+
+                CompletedJobs = bookings.Count(b => b.Status == "Completed"),
+
+                TotalReviews = reviews.Count,
+
+                AverageRating = reviews.Any()
+                    ? reviews.Average(r => r.Rating)
+                    : 0
+            };
+
+            return View(model);
         }
 
         [Authorize(Roles = "Provider")]

@@ -1,20 +1,27 @@
-﻿using HomeCare.Models.Identity;
+﻿using HomeCare.Models;
+using HomeCare.Models.Identity;
 using HomeCare.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeCare.Controllers
 {
     public class CustomerController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public CustomerController(UserManager<ApplicationUser> userManager)
+        public CustomerController(
+            UserManager<ApplicationUser> userManager,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
+            _context = context;
         }
 
+        // REGISTER
         [HttpGet]
         public IActionResult Register()
         {
@@ -54,10 +61,38 @@ namespace HomeCare.Controllers
             return View(model);
         }
 
+        // DASHBOARD
         [Authorize(Roles = "Customer")]
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            return View();
+            var customer = await _userManager.GetUserAsync(User);
+
+            var bookings = _context.Bookings
+                .Include(b => b.Service)
+                .Where(b => b.CustomerId == customer.Id)
+                .ToList();
+
+            var reviews = _context.Reviews
+                .Where(r => r.CustomerId == customer.Id)
+                .ToList();
+
+            var model = new CustomerDashboardViewModel
+            {
+                TotalBookings = bookings.Count,
+
+                PendingBookings = bookings.Count(b => b.Status == "Pending"),
+
+                CompletedBookings = bookings.Count(b => b.Status == "Completed"),
+
+                TotalReviews = reviews.Count,
+
+                RecentBookings = bookings
+                    .OrderByDescending(b => b.BookingDate)
+                    .Take(5)
+                    .ToList()
+            };
+
+            return View(model);
         }
     }
 }
