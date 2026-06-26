@@ -4,63 +4,52 @@
     ViewData["Title"] = "Create Category";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <div class="row justify-content-center">
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body p-4">
-
-                    <h2 class="mb-4">
-                        Create Category
-                    </h2>
-
-                    <form asp-action="Create">
-
-                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Category Name
-                            </label>
-
-                            <input asp-for="Name" class="form-control" />
-
-                            <span asp-validation-for="Name" class="text-danger"></span>
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Description
-                            </label>
-
-                            <textarea asp-for="Description"
-                                      class="form-control">
-                            </textarea>
-
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">
-                            Create
-                        </button>
-
-                    </form>
-
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Administration</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Create Category</h1>
+                    <p>Add a new category to organize services in the catalog.</p>
                 </div>
-
             </div>
-
         </div>
 
-    </div>
+        <div class="dashboard-panel hc-form-layout">
+            <form asp-action="Create">
+                <div asp-validation-summary="All" class="hc-validation"></div>
 
-</div>
+                <div class="hc-field">
+                    <label asp-for="Name" class="form-label">Category Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter category name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="hc-field">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              placeholder="Describe this category"></textarea>
+                </div>
+
+                <div class="hc-form-actions">
+                    <button type="submit" class="btn app-btn-primary">
+                        Create
+                    </button>
+
+                    <a asp-action="Index" class="btn app-btn-outline">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

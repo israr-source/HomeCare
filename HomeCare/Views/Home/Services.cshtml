@@ -2,110 +2,81 @@
     ViewData["Title"] = "Services";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/service.css" asp-append-version="true" />
+}
 
-    <div class="text-center mb-5">
-        <h1 class="fw-bold">Our Services</h1>
-
-        <p class="text-muted">
-            Explore professional home services offered by HomeCare.
+<section class="home-hero">
+    <div class="container">
+        <span class="hero-eyebrow">Our services</span>
+        <h1>Professional home services for every need.</h1>
+        <p class="hero-text">
+            Explore popular home-care categories or browse the full service catalog.
         </p>
+
+        <div class="hero-actions">
+            <a asp-controller="Service" asp-action="Index" class="btn app-btn-primary">
+                Browse Full Catalog
+            </a>
+        </div>
     </div>
+</section>
 
-    <div class="row g-4">
-
-        <!-- Electrician -->
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h4 class="card-title">
-                        Electrician
-                    </h4>
-
-                    <p class="card-text">
-                        Professional electrical installation and repair services.
-                    </p>
-
-                    <a href="#" class="btn btn-primary">
-                        Book Now
-                    </a>
-
+<section class="home-section">
+    <div class="container">
+        <div class="service-card-grid">
+            <article class="catalog-service-card">
+                <div class="card-top">
+                    <span class="category-badge">Electrical</span>
                 </div>
-
-            </div>
-        </div>
-
-        <!-- Plumbing -->
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h4 class="card-title">
-                        Plumbing
-                    </h4>
-
-                    <p class="card-text">
-                        Reliable plumbing maintenance and pipe repair services.
-                    </p>
-
-                    <a href="#" class="btn btn-primary">
-                        Book Now
+                <h3>Electrician</h3>
+                <p>Professional electrical installation and repair services.</p>
+                <div class="service-actions">
+                    <a asp-controller="Service" asp-action="Index" class="btn app-btn-primary">
+                        View Services
                     </a>
-
                 </div>
+            </article>
 
-            </div>
-        </div>
-
-        <!-- Cleaning -->
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h4 class="card-title">
-                        Cleaning
-                    </h4>
-
-                    <p class="card-text">
-                        Expert home and office cleaning solutions.
-                    </p>
-
-                    <a href="#" class="btn btn-primary">
-                        Book Now
+            <article class="catalog-service-card">
+                <div class="card-top">
+                    <span class="category-badge">Plumbing</span>
+                </div>
+                <h3>Plumbing</h3>
+                <p>Reliable plumbing maintenance and pipe repair services.</p>
+                <div class="service-actions">
+                    <a asp-controller="Service" asp-action="Index" class="btn app-btn-primary">
+                        View Services
                     </a>
-
                 </div>
+            </article>
 
-            </div>
-        </div>
-
-        <!-- AC Repair -->
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-
-                <div class="card-body text-center">
-
-                    <h4 class="card-title">
-                        AC Repair
-                    </h4>
-
-                    <p class="card-text">
-                        Affordable AC servicing and maintenance support.
-                    </p>
-
-                    <a href="#" class="btn btn-primary">
-                        Book Now
+            <article class="catalog-service-card">
+                <div class="card-top">
+                    <span class="category-badge">Cleaning</span>
+                </div>
+                <h3>Cleaning</h3>
+                <p>Expert home and office cleaning solutions.</p>
+                <div class="service-actions">
+                    <a asp-controller="Service" asp-action="Index" class="btn app-btn-primary">
+                        View Services
                     </a>
-
                 </div>
+            </article>
 
-            </div>
+            <article class="catalog-service-card">
+                <div class="card-top">
+                    <span class="category-badge">HVAC</span>
+                </div>
+                <h3>AC Repair</h3>
+                <p>Affordable AC servicing and maintenance support.</p>
+                <div class="service-actions">
+                    <a asp-controller="Service" asp-action="Index" class="btn app-btn-primary">
+                        View Services
+                    </a>
+                </div>
+            </article>
         </div>
-
     </div>
-
-</div>
+</section>

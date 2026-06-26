@@ -4,57 +4,55 @@
     ViewData["Title"] = "Leave Review";
 }
 
-<div class="container mt-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <h2>Leave Review</h2>
-
-    <form asp-action="Create">
-
-        <div asp-validation-summary="All"
-             class="text-danger mb-3">
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Customer feedback</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Leave Review</h1>
+                    <p>Share your experience and help other customers choose reliable providers.</p>
+                </div>
+            </div>
         </div>
 
-        <input type="hidden"
-               asp-for="BookingId" />
+        <div class="dashboard-panel hc-form-layout">
+            <form asp-action="Create">
+                <div asp-validation-summary="All" class="hc-validation"></div>
 
-        <div class="mb-3">
+                <input type="hidden" asp-for="BookingId" />
 
-            <label asp-for="Rating"
-                   class="form-label"></label>
+                <div class="hc-field">
+                    <label asp-for="Rating" class="form-label"></label>
+                    <select asp-for="Rating" class="form-select">
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
 
-            <select asp-for="Rating"
-                    class="form-control">
+                <div class="hc-field">
+                    <label asp-for="Comment" class="form-label"></label>
+                    <textarea asp-for="Comment"
+                              class="form-control"
+                              placeholder="Tell us about the service quality, professionalism, and timeliness"></textarea>
+                    <span asp-validation-for="Comment" class="text-danger"></span>
+                </div>
 
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
-
-            </select>
-
+                <button type="submit" class="btn app-btn-primary">
+                    Submit Review
+                </button>
+            </form>
         </div>
-
-        <div class="mb-3">
-
-            <label asp-for="Comment"
-                   class="form-label"></label>
-
-            <textarea asp-for="Comment"
-                      class="form-control"></textarea>
-
-        </div>
-
-        <button type="submit"
-                class="btn btn-primary">
-
-            Submit Review
-
-        </button>
-
-    </form>
-
-</div>
+    </div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

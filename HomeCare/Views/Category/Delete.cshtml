@@ -4,56 +4,42 @@
     ViewData["Title"] = "Delete Category";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <div class="row justify-content-center">
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm border-danger">
-
-                <div class="card-body p-4">
-
-                    <h2 class="text-danger mb-4">
-                        Delete Category
-                    </h2>
-
-                    <p>
-                        Are you sure you want to delete this category?
-                    </p>
-
-                    <hr />
-
-                    <h4>@Model.Name</h4>
-
-                    <p>@Model.Description</p>
-
-                    <form asp-action="Delete">
-
-                        <input type="hidden" asp-for="Id" />
-
-                        <button type="submit"
-                                class="btn btn-danger">
-
-                            Delete
-
-                        </button>
-
-                        <a asp-action="Index"
-                           class="btn btn-secondary">
-
-                            Cancel
-
-                        </a>
-
-                    </form>
-
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Administration</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1 class="hc-danger-title">Delete Category</h1>
+                    <p>This action cannot be undone. Confirm that you want to remove this category.</p>
                 </div>
-
             </div>
-
         </div>
 
-    </div>
+        <div class="dashboard-panel hc-form-layout hc-danger-panel">
+            <div class="hc-field">
+                <span class="hc-eyebrow">Category</span>
+                <h2 class="hc-page-title">@Model.Name</h2>
+                <p class="hc-page-lead">@Model.Description</p>
+            </div>
 
-</div>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="hc-form-actions">
+                    <button type="submit" class="btn btn-danger">
+                        Delete
+                    </button>
+
+                    <a asp-action="Index" class="btn app-btn-outline">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

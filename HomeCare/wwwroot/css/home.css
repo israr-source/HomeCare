@@ -1,21 +1,7 @@
 .home-hero {
-    background:
-        radial-gradient(circle at top right, rgba(204, 251, 241, 0.8), transparent 36%),
-        linear-gradient(135deg, #f8fafc 0%, #eef7f6 100%);
+    background: var(--hc-page-gradient);
     overflow: hidden;
     padding: 6rem 0 4.5rem;
-}
-
-.hero-eyebrow,
-.section-heading span,
-.why-card span {
-    color: var(--hc-primary);
-    display: inline-block;
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.75rem;
-    text-transform: uppercase;
 }
 
 .home-hero h1 {

@@ -1,7 +1,5 @@
 .service-hero {
-    background:
-        radial-gradient(circle at top right, rgba(204, 251, 241, 0.9), transparent 34%),
-        linear-gradient(135deg, #f8fafc 0%, #eef7f6 100%);
+    background: var(--hc-page-gradient);
     padding: 4.5rem 0 5.5rem;
 }
 
@@ -9,18 +7,6 @@
     margin: 0 auto;
     max-width: 780px;
     text-align: center;
-}
-
-.service-hero-content span,
-.catalog-header span,
-.service-empty-state span {
-    color: var(--hc-primary);
-    display: inline-block;
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.7rem;
-    text-transform: uppercase;
 }
 
 .service-hero h1 {
@@ -177,9 +163,7 @@
 }
 
 .service-detail-hero {
-    background:
-        radial-gradient(circle at top right, rgba(204, 251, 241, 0.95), transparent 34%),
-        linear-gradient(135deg, #f8fafc 0%, #eef7f6 100%);
+    background: var(--hc-page-gradient);
     padding: 4.5rem 0;
 }
 

@@ -4,96 +4,69 @@
     ViewData["Title"] = "Create Service";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <div class="row justify-content-center">
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body p-4">
-
-                    <h2 class="mb-4">
-                        Create Service
-                    </h2>
-
-                    <form asp-action="Create">
-
-                        <div asp-validation-summary="All"
-                             class="text-danger mb-3">
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Service Name
-                            </label>
-
-                            <input asp-for="Name"
-                                   class="form-control" />
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Description
-                            </label>
-
-                            <textarea asp-for="Description"
-                                      class="form-control">
-                            </textarea>
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Price
-                            </label>
-
-                            <input asp-for="Price"
-                                   class="form-control" />
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Category
-                            </label>
-
-                            <select asp-for="ServiceCategoryId"
-                                    asp-items="ViewBag.Categories"
-                                    class="form-select">
-
-                                <option value="">
-                                    -- Select Category --
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-primary">
-
-                            Create Service
-
-                        </button>
-
-                    </form>
-
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Administration</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Create Service</h1>
+                    <p>Add a new service to the public HomeCare catalog.</p>
                 </div>
-
             </div>
-
         </div>
 
-    </div>
+        <div class="dashboard-panel hc-form-layout">
+            <form asp-action="Create">
+                <div asp-validation-summary="All" class="hc-validation"></div>
 
-</div>
+                <div class="hc-field">
+                    <label asp-for="Name" class="form-label">Service Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter service name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="hc-field">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              placeholder="Describe what this service includes"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="hc-field">
+                    <label asp-for="Price" class="form-label">Price</label>
+                    <input asp-for="Price" class="form-control" placeholder="Enter price in BDT" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="hc-field">
+                    <label asp-for="ServiceCategoryId" class="form-label">Category</label>
+                    <select asp-for="ServiceCategoryId"
+                            asp-items="ViewBag.Categories"
+                            class="form-select">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="ServiceCategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="hc-form-actions">
+                    <button type="submit" class="btn app-btn-primary">
+                        Create Service
+                    </button>
+
+                    <a asp-controller="Service" asp-action="Index" class="btn app-btn-outline">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
