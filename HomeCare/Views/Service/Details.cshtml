@@ -1,48 +1,144 @@
-﻿@model HomeCare.Models.Service
+@model HomeCare.Models.Service
 
 @{
-    ViewData["Title"] = "Service Details";
+    ViewData["Title"] = Model.Name;
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/service.css" asp-append-version="true" />
+}
 
-    <div class="card shadow">
+<section class="service-detail-hero">
+    <div class="container">
+        <div class="detail-hero-grid">
+            <div>
+                <a asp-action="Index" class="back-link">
+                    Back to services
+                </a>
 
-        <div class="card-body">
+                <span class="category-badge">
+                    @Model.ServiceCategory?.Name
+                </span>
 
-            <h2>@Model.Name</h2>
+                <h1>@Model.Name</h1>
 
-            <hr />
+                <p>
+                    @(string.IsNullOrWhiteSpace(Model.Description)
+                        ? "Professional home service available through the HomeCare marketplace."
+                        : Model.Description)
+                </p>
+            </div>
 
-            <p>
-                <strong>Category:</strong>
-                @Model.ServiceCategory?.Name
-            </p>
+            <aside class="booking-cta-card">
+                <span>Service price</span>
 
-            <p>
-                <strong>Price:</strong>
-                ৳@Model.Price
-            </p>
+                <strong>BDT @Model.Price</strong>
 
-            <p>
-                <strong>Description:</strong>
-            </p>
+                <p>
+                    Book this service with a customer account and track the job from request to review.
+                </p>
 
-            <p>
-                @Model.Description
-            </p>
+                @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Customer"))
+                {
+                    <a asp-controller="Booking"
+                       asp-action="Create"
+                       asp-route-serviceId="@Model.Id"
+                       class="btn app-btn-primary">
+                        Book Service
+                    </a>
+                }
+                else if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="booking-note">
+                        Booking is available for customer accounts.
+                    </div>
+                }
+                else
+                {
+                    <a asp-area="Identity"
+                       asp-page="/Account/Login"
+                       class="btn app-btn-primary">
+                        Login to Book
+                    </a>
 
-            <a asp-controller="Booking"
-               asp-action="Create"
-               asp-route-serviceId="@Model.Id"
-               class="btn btn-success">
-
-                Book Service
-
-            </a>
-
+                    <a asp-controller="Account"
+                       asp-action="RegisterOptions"
+                       class="btn app-btn-outline">
+                        Create Account
+                    </a>
+                }
+            </aside>
         </div>
-
     </div>
+</section>
 
-</div>
+<section class="service-detail-body">
+    <div class="container">
+        <div class="detail-content-grid">
+            <div class="detail-main-card">
+                <span>Service overview</span>
+
+                <h2>What this service includes</h2>
+
+                <p>
+                    @(string.IsNullOrWhiteSpace(Model.Description)
+                        ? "This service is managed through HomeCare. Customers can book a preferred date, add address details, and include notes for the provider."
+                        : Model.Description)
+                </p>
+
+                <div class="detail-info-grid">
+                    <div>
+                        <strong>Category</strong>
+                        <span>@Model.ServiceCategory?.Name</span>
+                    </div>
+
+                    <div>
+                        <strong>Starting Price</strong>
+                        <span>BDT @Model.Price</span>
+                    </div>
+
+                    <div>
+                        <strong>Booking Flow</strong>
+                        <span>Request, provider acceptance, completion, review</span>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="trust-card">
+                <h3>Why book with HomeCare?</h3>
+
+                <div class="trust-item">
+                    <span>✓</span>
+                    <div>
+                        <strong>Verified service listing</strong>
+                        <p>Services are managed through the admin catalog.</p>
+                    </div>
+                </div>
+
+                <div class="trust-item">
+                    <span>✓</span>
+                    <div>
+                        <strong>Secure booking workflow</strong>
+                        <p>Customers submit bookings through authenticated accounts.</p>
+                    </div>
+                </div>
+
+                <div class="trust-item">
+                    <span>✓</span>
+                    <div>
+                        <strong>Provider tracking</strong>
+                        <p>Providers accept and complete jobs through their dashboard.</p>
+                    </div>
+                </div>
+
+                <div class="trust-item">
+                    <span>✓</span>
+                    <div>
+                        <strong>Review after completion</strong>
+                        <p>Customers can review completed provider jobs.</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>

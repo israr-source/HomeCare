@@ -1,100 +1,128 @@
-﻿@model HomeCare.Models.Booking
+@model HomeCare.Models.Booking
 
 @{
     ViewData["Title"] = "Book Service";
+    var selectedService = ViewBag.SelectedService as HomeCare.Models.Service;
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/service.css" asp-append-version="true" />
+}
 
-    <div class="row justify-content-center">
-
-        <div class="col-md-6">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body p-4">
-
-                    <h2 class="mb-4">
-                        Book Service
-                    </h2>
-
-                    <form asp-action="Create">
-
-                        <div asp-validation-summary="All"
-                             class="text-danger mb-3">
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Service
-                            </label>
-
-                            <select asp-for="ServiceId"
-                                    asp-items="ViewBag.Services"
-                                    class="form-select">
-
-                                <option value="">
-                                    -- Select Service --
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Address
-                            </label>
-
-                            <input asp-for="Address"
-                                   class="form-control" />
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Booking Date
-                            </label>
-
-                            <input asp-for="BookingDate"
-                                   type="datetime-local"
-                                   class="form-control" />
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Notes
-                            </label>
-
-                            <textarea asp-for="Notes"
-                                      class="form-control">
-                            </textarea>
-
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-primary">
-
-                            Confirm Booking
-
-                        </button>
-
-                    </form>
-
-                </div>
-
-            </div>
-
+<section class="booking-page">
+    <div class="container">
+        <div class="booking-heading">
+            <span>Book a service</span>
+            <h1>Schedule your HomeCare service.</h1>
+            <p>
+                Choose your service, add address details, and submit your booking request.
+            </p>
         </div>
 
-    </div>
+        <div class="booking-layout">
+            <div class="booking-form-card">
+                <form asp-action="Create">
 
-</div>
+                    <div asp-validation-summary="All"
+                         class="booking-validation">
+                    </div>
+
+                    <div class="booking-field">
+                        <label class="form-label">
+                            Service
+                        </label>
+
+                        <select asp-for="ServiceId"
+                                asp-items="ViewBag.Services"
+                                class="form-select">
+
+                            <option value="">
+                                -- Select Service --
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="booking-field">
+                        <label class="form-label">
+                            Address
+                        </label>
+
+                        <input asp-for="Address"
+                               class="form-control"
+                               placeholder="Enter your service address" />
+                    </div>
+
+                    <div class="booking-field">
+                        <label class="form-label">
+                            Booking Date
+                        </label>
+
+                        <input asp-for="BookingDate"
+                               type="datetime-local"
+                               class="form-control" />
+                    </div>
+
+                    <div class="booking-field">
+                        <label class="form-label">
+                            Notes
+                        </label>
+
+                        <textarea asp-for="Notes"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="Add any instructions for the provider"></textarea>
+                    </div>
+
+                    <button type="submit"
+                            class="btn app-btn-primary booking-submit">
+                        Confirm Booking
+                    </button>
+
+                </form>
+            </div>
+
+            <aside class="booking-summary-card">
+                <span>Booking summary</span>
+
+                @if (selectedService != null)
+                {
+                    <h2>@selectedService.Name</h2>
+
+                    <div class="summary-row">
+                        <span>Category</span>
+                        <strong>@selectedService.ServiceCategory?.Name</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Price</span>
+                        <strong>BDT @selectedService.Price</strong>
+                    </div>
+
+                    <p>
+                        @(string.IsNullOrWhiteSpace(selectedService.Description)
+                            ? "Your selected service will be sent to available providers after confirmation."
+                            : selectedService.Description)
+                    </p>
+                }
+                else
+                {
+                    <h2>Select a service</h2>
+
+                    <p>
+                        Choose a service from the dropdown to continue. Services can also be selected from the public catalog.
+                    </p>
+                }
+
+                <div class="summary-trust-list">
+                    <div>Authenticated customer booking</div>
+                    <div>Provider accepts the job</div>
+                    <div>Status tracking in My Bookings</div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

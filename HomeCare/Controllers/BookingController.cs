@@ -45,6 +45,13 @@ namespace HomeCare.Controllers
                 "Name",
                 serviceId);
 
+            if (serviceId.HasValue)
+            {
+                ViewBag.SelectedService = _context.Services
+                    .Include(s => s.ServiceCategory)
+                    .FirstOrDefault(s => s.Id == serviceId.Value);
+            }
+
             var booking = new Booking();
 
             if (serviceId.HasValue)
@@ -86,6 +93,10 @@ namespace HomeCare.Controllers
                 "Id",
                 "Name",
                 booking.ServiceId);
+
+            ViewBag.SelectedService = _context.Services
+                .Include(s => s.ServiceCategory)
+                .FirstOrDefault(s => s.Id == booking.ServiceId);
 
             return View(booking);
         }
