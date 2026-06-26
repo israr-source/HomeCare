@@ -39,6 +39,7 @@ namespace HomeCare.Controllers
                     Email = model.Email,
                     Address = model.Address,
                     PhoneNumber = model.PhoneNumber,
+                    ServiceType = model.ServiceType,
                     LastLogin = DateTime.Now
                 };
 

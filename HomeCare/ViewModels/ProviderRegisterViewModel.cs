@@ -15,6 +15,7 @@ namespace HomeCare.ViewModels
         public string Address { get; set; }
 
         [Required]
+        [Phone]
         public string PhoneNumber { get; set; }
 
         [Required]

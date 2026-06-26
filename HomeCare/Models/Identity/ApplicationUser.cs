@@ -6,6 +6,7 @@ namespace HomeCare.Models.Identity
     {
         public string? FullName { get; set; }
         public string? Address { get; set; }
+        public string? ServiceType { get; set; }
 
         public DateTime? LastLogin { get; set; }
     }

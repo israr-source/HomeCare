@@ -20,6 +20,7 @@ namespace HomeCare.Models
 
         // SERVICE
         [Display(Name = "Service")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a service.")]
         public int ServiceId { get; set; }
 
         public Service? Service { get; set; }

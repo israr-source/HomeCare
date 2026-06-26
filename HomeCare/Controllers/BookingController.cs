@@ -59,6 +59,13 @@ namespace HomeCare.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Booking booking)
         {
+            if (booking.BookingDate <= DateTime.Now)
+            {
+                ModelState.AddModelError(
+                    nameof(Booking.BookingDate),
+                    "Booking date must be in the future.");
+            }
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -77,7 +84,8 @@ namespace HomeCare.Controllers
             ViewBag.Services = new SelectList(
                 _context.Services,
                 "Id",
-                "Name");
+                "Name",
+                booking.ServiceId);
 
             return View(booking);
         }
