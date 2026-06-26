@@ -1,99 +1,108 @@
-﻿@model HomeCare.ViewModels.ProviderRegisterViewModel
+@model HomeCare.ViewModels.ProviderRegisterViewModel
 
 @{
     ViewData["Title"] = "Provider Registration";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+}
 
-    <div class="row justify-content-center">
+<section class="auth-page">
+    <div class="container">
+        <div class="auth-shell">
+            <div class="auth-intro">
+                <span>Provider account</span>
+                <h1>Grow your service work with HomeCare.</h1>
+                <p>
+                    Create a provider profile to access available jobs, accept bookings, and build trust through reviews.
+                </p>
 
-        <div class="col-md-6">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body p-4">
-
-                    <h2 class="text-center mb-4">
-                        Service Provider Registration
-                    </h2>
-
-                    <form asp-action="Register">
-
-                        <div asp-validation-summary="All" class="text-danger mb-3"></div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-
-                            <input asp-for="FullName" class="form-control" />
-
-                            <span asp-validation-for="FullName" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-
-                            <input asp-for="Email" class="form-control" />
-
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Address</label>
-
-                            <input asp-for="Address" class="form-control" />
-
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Phone Number</label>
-
-                            <input asp-for="PhoneNumber" class="form-control" />
-
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Service Type</label>
-
-                            <input asp-for="ServiceType" class="form-control" />
-
-                            <span asp-validation-for="ServiceType" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-
-                            <input asp-for="Password" class="form-control" />
-
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Confirm Password</label>
-
-                            <input asp-for="ConfirmPassword" class="form-control" />
-
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100">
-                            Register as Provider
-                        </button>
-
-                    </form>
-
+                <div class="auth-highlights">
+                    <div>Accept available jobs</div>
+                    <div>Manage your work queue</div>
+                    <div>Track customer reviews</div>
                 </div>
-
             </div>
 
+            <div class="auth-card">
+                <div class="auth-card-heading">
+                    <span>Register as provider</span>
+                    <h2>Create provider account</h2>
+                    <p>Tell customers what service you provide.</p>
+                </div>
+
+                <form asp-action="Register">
+                    <div asp-validation-summary="All" class="auth-validation"></div>
+
+                    <div class="auth-field">
+                        <label asp-for="FullName" class="form-label">Full Name</label>
+                        <input asp-for="FullName" class="form-control" placeholder="Your full name" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label asp-for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label asp-for="Address" class="form-label">Address</label>
+                        <input asp-for="Address" class="form-control" placeholder="Your address" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Your phone number" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label asp-for="ServiceType" class="form-label">Service Type</label>
+                        <input asp-for="ServiceType" class="form-control" placeholder="Cleaning, plumbing, AC repair..." />
+                        <span asp-validation-for="ServiceType" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <div class="password-field">
+                            <input asp-for="Password" class="form-control" placeholder="Create a password" />
+                            <button type="button"
+                                    class="password-toggle"
+                                    data-password-toggle
+                                    aria-label="Show password">
+                                Show
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="auth-field">
+                        <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                        <div class="password-field">
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm your password" />
+                            <button type="button"
+                                    class="password-toggle"
+                                    data-password-toggle
+                                    aria-label="Show password">
+                                Show
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn app-btn-primary auth-submit">
+                        Register as Provider
+                    </button>
+                </form>
+            </div>
         </div>
-
     </div>
-
-</div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/auth.js" asp-append-version="true"></script>
 }

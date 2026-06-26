@@ -1,79 +1,70 @@
-﻿@{
+@{
     ViewData["Title"] = "Register";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+}
 
-    <div class="text-center mb-5">
-
-        <h1 class="fw-bold">
-            Create an Account
-        </h1>
-
-        <p class="text-muted">
-            Choose how you want to use HomeCare.
-        </p>
-
-    </div>
-
-    <div class="row justify-content-center g-4">
-
-        <!-- Customer Card -->
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100 text-center">
-
-                <div class="card-body p-4">
-
-                    <h3 class="mb-3">
-                        Customer
-                    </h3>
-
-                    <p>
-                        Book home services quickly and easily.
-                    </p>
-
-                    <a asp-controller="Customer"
-                       asp-action="Register"
-                       class="btn btn-primary">
-
-                        Register as Customer
-                    </a>
-
-                </div>
-
-            </div>
-
+<section class="auth-page">
+    <div class="container">
+        <div class="auth-heading">
+            <span>Create your account</span>
+            <h1>How would you like to use HomeCare?</h1>
+            <p>
+                Choose the account type that matches your role in the home-service marketplace.
+            </p>
         </div>
 
-        <!-- Provider Card -->
-        <div class="col-md-4">
+        <div class="register-option-grid">
+            <article class="register-option-card">
+                <div class="option-icon">C</div>
+                <span>For customers</span>
+                <h2>Book home services</h2>
+                <p>
+                    Browse services, submit booking requests, track status, and review completed jobs.
+                </p>
 
-            <div class="card shadow-sm h-100 text-center">
+                <ul>
+                    <li>Search services by category</li>
+                    <li>Manage your bookings</li>
+                    <li>Leave provider reviews</li>
+                </ul>
 
-                <div class="card-body p-4">
+                <a asp-controller="Customer"
+                   asp-action="Register"
+                   class="btn app-btn-primary">
+                    Register as Customer
+                </a>
+            </article>
 
-                    <h3 class="mb-3">
-                        Service Provider
-                    </h3>
+            <article class="register-option-card featured">
+                <div class="option-icon">P</div>
+                <span>For providers</span>
+                <h2>Offer your services</h2>
+                <p>
+                    Join HomeCare as a provider, accept jobs, complete work, and build customer trust.
+                </p>
 
-                    <p>
-                        Join HomeCare and offer your professional services.
-                    </p>
+                <ul>
+                    <li>View available jobs</li>
+                    <li>Track accepted work</li>
+                    <li>Receive customer reviews</li>
+                </ul>
 
-                    <a asp-controller="Provider"
-                       asp-action="Register"
-                       class="btn btn-dark">
-
-                        Register as Provider
-                    </a>
-
-                </div>
-
-            </div>
-
+                <a asp-controller="Provider"
+                   asp-action="Register"
+                   class="btn app-btn-primary">
+                    Register as Provider
+                </a>
+            </article>
         </div>
 
+        <div class="auth-switch">
+            Already have an account?
+            <a asp-area="Identity" asp-page="/Account/Login">
+                Log in
+            </a>
+        </div>
     </div>
-
-</div>
+</section>
