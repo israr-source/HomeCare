@@ -104,6 +104,8 @@ namespace HomeCare.Controllers
         }
 
         [Authorize(Roles = "Provider")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AcceptJob(int id)
         {
             var booking = await _context.Bookings.FindAsync(id);
@@ -114,6 +116,11 @@ namespace HomeCare.Controllers
             }
 
             var provider = await _userManager.GetUserAsync(User);
+
+            if (booking.Status != "Pending" || booking.ProviderId != null)
+            {
+                return RedirectToAction(nameof(AvailableJobs));
+            }
 
             booking.ProviderId = provider.Id;
             booking.Status = "Accepted";
@@ -138,6 +145,8 @@ namespace HomeCare.Controllers
         }
 
         [Authorize(Roles = "Provider")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompleteJob(int id)
         {
             var booking = await _context.Bookings.FindAsync(id);
@@ -145,6 +154,18 @@ namespace HomeCare.Controllers
             if (booking == null)
             {
                 return NotFound();
+            }
+
+            var provider = await _userManager.GetUserAsync(User);
+
+            if (booking.ProviderId != provider.Id)
+            {
+                return Forbid();
+            }
+
+            if (booking.Status != "Accepted")
+            {
+                return RedirectToAction(nameof(MyJobs));
             }
 
             booking.Status = "Completed";

@@ -53,13 +53,18 @@
 
                     <td>
 
-                        <a asp-action="AcceptJob"
-                           asp-route-id="@item.Id"
-                           class="btn btn-success btn-sm">
+                        <form asp-action="AcceptJob"
+                              asp-route-id="@item.Id"
+                              method="post">
 
-                            Accept Job
+                            <button type="submit"
+                                    class="btn btn-success btn-sm">
 
-                        </a>
+                                Accept Job
+
+                            </button>
+
+                        </form>
 
                     </td>
 

@@ -3,6 +3,7 @@ using HomeCare.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeCare.Controllers
 {
@@ -21,8 +22,28 @@ namespace HomeCare.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(int bookingId)
+        public async Task<IActionResult> Create(int bookingId)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            var booking = await _context.Bookings
+                .FirstOrDefaultAsync(b => b.Id == bookingId);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            if (booking.CustomerId != user.Id)
+            {
+                return Forbid();
+            }
+
+            if (booking.Status != "Completed" || booking.ProviderId == null)
+            {
+                return RedirectToAction("Index", "Booking");
+            }
+
             var review = new Review
             {
                 BookingId = bookingId
@@ -32,6 +53,7 @@ namespace HomeCare.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Review review)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -41,6 +63,21 @@ namespace HomeCare.Controllers
             if (booking == null)
             {
                 return NotFound();
+            }
+
+            if (booking.CustomerId != user.Id)
+            {
+                return Forbid();
+            }
+
+            if (booking.Status != "Completed" || booking.ProviderId == null)
+            {
+                return RedirectToAction("Index", "Booking");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(review);
             }
 
             review.CustomerId = user.Id;

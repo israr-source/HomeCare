@@ -45,13 +45,18 @@
 
                         @if (item.Status == "Accepted")
                         {
-                            <a asp-action="CompleteJob"
-                               asp-route-id="@item.Id"
-                               class="btn btn-primary btn-sm">
+                            <form asp-action="CompleteJob"
+                                  asp-route-id="@item.Id"
+                                  method="post">
 
-                                Complete Job
+                                <button type="submit"
+                                        class="btn btn-primary btn-sm">
 
-                            </a>
+                                    Complete Job
+
+                                </button>
+
+                            </form>
                         }
                         else
                         {

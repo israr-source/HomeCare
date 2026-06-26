@@ -10,6 +10,10 @@
 
     <form asp-action="Create">
 
+        <div asp-validation-summary="All"
+             class="text-danger mb-3">
+        </div>
+
         <input type="hidden"
                asp-for="BookingId" />
 
@@ -51,3 +55,7 @@
     </form>
 
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
