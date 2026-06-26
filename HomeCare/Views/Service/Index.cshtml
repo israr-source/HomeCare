@@ -1,41 +1,43 @@
-﻿@model IEnumerable<HomeCare.Models.Service>
+@model IEnumerable<HomeCare.Models.Service>
 
 @{
     ViewData["Title"] = "Services";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/service.css" asp-append-version="true" />
+}
 
-    <div class="d-flex justify-content-between mb-4">
-
-        <h2>Services</h2>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-
-            Add Service
-
-        </a>
-
+<section class="service-hero">
+    <div class="container">
+        <div class="service-hero-content">
+            <span>HomeCare services</span>
+            <h1>Find the right professional for your home.</h1>
+            <p>
+                Search trusted home services, compare pricing, and book the service
+                that fits your schedule.
+            </p>
+        </div>
     </div>
+</section>
 
-    <form method="get" class="mb-4">
-
-        <div class="row g-2">
-
-            <div class="col-md-4">
-
-                <input type="text"
+<section class="service-catalog">
+    <div class="container">
+        <form method="get" class="service-filter">
+            <div class="filter-field">
+                <label for="searchTerm">Search services</label>
+                <input id="searchTerm"
+                       type="text"
                        name="searchTerm"
                        value="@ViewBag.SearchTerm"
                        class="form-control"
-                       placeholder="Search services..." />
-
+                       placeholder="Search cleaning, plumbing, AC repair..." />
             </div>
 
-            <div class="col-md-4">
-
-                <select name="categoryId"
+            <div class="filter-field">
+                <label for="categoryId">Category</label>
+                <select id="categoryId"
+                        name="categoryId"
                         class="form-select">
 
                     <option value="">
@@ -59,95 +61,99 @@
                     }
 
                 </select>
-
             </div>
 
-            <div class="col-md-2">
-
+            <div class="filter-actions">
                 <button type="submit"
-                        class="btn btn-primary w-100">
-
+                        class="btn app-btn-primary">
                     Search
-
                 </button>
 
-            </div>
-
-            <div class="col-md-2">
-
                 <a asp-action="Index"
-                   class="btn btn-secondary w-100">
-
+                   class="btn app-btn-outline">
                     Clear
-
                 </a>
+            </div>
+        </form>
 
+        <div class="catalog-header">
+            <div>
+                <span>@Model.Count() services found</span>
+                <h2>Available services</h2>
             </div>
 
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Create"
+                   class="btn app-btn-primary">
+                    Add Service
+                </a>
+            }
         </div>
 
-    </form>
-
-    <table class="table table-bordered table-striped">
-
-        <thead>
-
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Action</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            @if (Model.Any())
-            {
+        @if (Model.Any())
+        {
+            <div class="service-card-grid">
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <article class="catalog-service-card">
+                        <div class="card-top">
+                            <span class="category-badge">
+                                @item.ServiceCategory?.Name
+                            </span>
 
-                        <td>@item.Name</td>
+                            <strong class="service-price">
+                                BDT @item.Price
+                            </strong>
+                        </div>
 
-                        <td>@item.Description</td>
+                        <h3>@item.Name</h3>
 
-                        <td>৳@item.Price</td>
+                        <p>
+                            @if (!string.IsNullOrWhiteSpace(item.Description))
+                            {
+                                @(item.Description.Length > 140
+                                    ? item.Description.Substring(0, 140) + "..."
+                                    : item.Description)
+                            }
+                            else
+                            {
+                                <span>Professional home service available through HomeCare.</span>
+                            }
+                        </p>
 
-                        <td>@item.ServiceCategory?.Name</td>
-
-                        <td>
-
+                        <div class="service-actions">
                             <a asp-action="Details"
                                asp-route-id="@item.Id"
-                               class="btn btn-info btn-sm">
-
+                               class="btn app-btn-outline">
                                 View Details
-
                             </a>
 
-                        </td>
-
-                    </tr>
+                            <a asp-controller="Booking"
+                               asp-action="Create"
+                               asp-route-serviceId="@item.Id"
+                               class="btn app-btn-primary">
+                                Book Now
+                            </a>
+                        </div>
+                    </article>
                 }
-            }
-            else
-            {
-                <tr>
+            </div>
+        }
+        else
+        {
+            <div class="service-empty-state">
+                <span>No services found</span>
+                <h3>Try adjusting your search or category filter.</h3>
+                <p>
+                    When admins add services to the catalog, customers can browse and book them here.
+                </p>
 
-                    <td colspan="5" class="text-center">
-
-                        No services found.
-
-                    </td>
-
-                </tr>
-            }
-
-        </tbody>
-
-    </table>
-
-</div>
+                <a asp-action="Index"
+                   class="btn app-btn-primary">
+                    View All Services
+                </a>
+            </div>
+        }
+    </div>
+</section>
