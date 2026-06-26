@@ -1,101 +1,251 @@
-﻿@{
+@model HomeCare.ViewModels.HomeIndexViewModel
+
+@{
     ViewData["Title"] = "Home";
 }
 
-<div class="container-fluid p-0">
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+}
 
-    <!-- Hero Section -->
-    <div class="hero-section text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold">Welcome to HomeCare</h1>
+<section class="home-hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <div class="hero-eyebrow">Premium home services marketplace</div>
 
-            <p class="lead mt-3">
-                Book trusted home services anytime, anywhere.
-            </p>
+                <h1>
+                    Book trusted home service professionals with confidence.
+                </h1>
 
-            <a href="#" class="btn btn-light btn-lg mt-3">
-                Explore Services
-            </a>
+                <p class="hero-text">
+                    HomeCare helps customers discover reliable providers, book services quickly,
+                    and manage every job from request to review.
+                </p>
+
+                <div class="hero-actions">
+                    <a asp-controller="Service"
+                       asp-action="Index"
+                       class="btn app-btn-primary">
+                        Browse Services
+                    </a>
+
+                    <a asp-controller="Provider"
+                       asp-action="Register"
+                       class="btn app-btn-outline">
+                        Become a Provider
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="hero-panel">
+                    <div class="hero-panel-header">
+                        <span>Fast Booking</span>
+                        <strong>Verified Providers</strong>
+                    </div>
+
+                    <div class="hero-panel-card">
+                        <div>
+                            <span>Most requested</span>
+                            <strong>Cleaning, Plumbing, AC Repair</strong>
+                        </div>
+                        <span class="hero-status">Available</span>
+                    </div>
+
+                    <div class="hero-panel-card">
+                        <div>
+                            <span>Average workflow</span>
+                            <strong>Browse, book, complete, review</strong>
+                        </div>
+                        <span class="hero-status muted">Simple</span>
+                    </div>
+
+                    <div class="hero-panel-footer">
+                        <strong>@Model.TotalServices+</strong>
+                        <span>services ready to explore</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-    <!-- Services Section -->
-    <div class="container py-5">
-
-        <h2 class="text-center mb-5">
-            Our Services
-        </h2>
-
-        <div class="row g-4">
-
-            <div class="col-md-3">
-                <div class="card shadow-sm h-100 text-center">
-                    <div class="card-body">
-                        <h4>Electrician</h4>
-                        <p>Professional electrical repair services.</p>
-                    </div>
-                </div>
+<section class="home-search">
+    <div class="container">
+        <form asp-controller="Service" asp-action="Index" method="get" class="search-card">
+            <div>
+                <label for="searchTerm">What service do you need?</label>
+                <input id="searchTerm"
+                       name="searchTerm"
+                       class="form-control"
+                       placeholder="Search electrician, cleaning, plumbing..." />
             </div>
 
-            <div class="col-md-3">
-                <div class="card shadow-sm h-100 text-center">
-                    <div class="card-body">
-                        <h4>Plumbing</h4>
-                        <p>Reliable plumbing solutions for your home.</p>
-                    </div>
-                </div>
+            <button type="submit" class="btn app-btn-primary">
+                Search Services
+            </button>
+        </form>
+    </div>
+</section>
+
+<section class="home-section">
+    <div class="container">
+        <div class="section-heading">
+            <span>Featured services</span>
+            <h2>Popular services ready to book</h2>
+            <p>Explore active services from the HomeCare catalog.</p>
+        </div>
+
+        @if (Model.FeaturedServices.Any())
+        {
+            <div class="service-grid">
+                @foreach (var service in Model.FeaturedServices)
+                {
+                    <article class="service-card">
+                        <div class="service-category">
+                            @service.ServiceCategory?.Name
+                        </div>
+
+                        <h3>@service.Name</h3>
+
+                        <p>
+                            @service.Description
+                        </p>
+
+                        <div class="service-card-footer">
+                            <strong>BDT @service.Price</strong>
+
+                            <a asp-controller="Service"
+                               asp-action="Details"
+                               asp-route-id="@service.Id">
+                                View Details
+                            </a>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-home-state">
+                Services added by admin will appear here.
+            </div>
+        }
+    </div>
+</section>
+
+<section class="home-section home-section-soft">
+    <div class="container">
+        <div class="section-heading">
+            <span>Service categories</span>
+            <h2>Find the right expert faster</h2>
+            <p>Browse services by category using the existing HomeCare catalog.</p>
+        </div>
+
+        @if (Model.Categories.Any())
+        {
+            <div class="category-grid">
+                @foreach (var category in Model.Categories)
+                {
+                    <a asp-controller="Service"
+                       asp-action="Index"
+                       asp-route-categoryId="@category.Id"
+                       class="category-card">
+                        <strong>@category.Name</strong>
+                        <span>@(category.Description ?? "Explore available services")</span>
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-home-state">
+                Categories added by admin will appear here.
+            </div>
+        }
+    </div>
+</section>
+
+<section class="home-section">
+    <div class="container">
+        <div class="section-heading">
+            <span>How it works</span>
+            <h2>A simple booking flow for everyone</h2>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <span>01</span>
+                <h3>Browse services</h3>
+                <p>Search the catalog and choose the service that matches your home-care need.</p>
             </div>
 
-            <div class="col-md-3">
-                <div class="card shadow-sm h-100 text-center">
-                    <div class="card-body">
-                        <h4>Cleaning</h4>
-                        <p>Expert home and office cleaning services.</p>
-                    </div>
-                </div>
+            <div class="step-card">
+                <span>02</span>
+                <h3>Book a time</h3>
+                <p>Submit your address, preferred date, and notes through the booking form.</p>
             </div>
 
-            <div class="col-md-3">
-                <div class="card shadow-sm h-100 text-center">
-                    <div class="card-body">
-                        <h4>AC Repair</h4>
-                        <p>Fast and affordable AC maintenance.</p>
-                    </div>
-                </div>
+            <div class="step-card">
+                <span>03</span>
+                <h3>Provider accepts</h3>
+                <p>A provider accepts the job, completes the work, and updates the status.</p>
             </div>
 
+            <div class="step-card">
+                <span>04</span>
+                <h3>Review the job</h3>
+                <p>After completion, customers can leave feedback for the assigned provider.</p>
+            </div>
         </div>
     </div>
+</section>
 
-    <!-- Why Choose Us -->
-    <div class="bg-light py-5">
-
-        <div class="container">
-
-            <h2 class="text-center mb-5">
-                Why Choose HomeCare?
-            </h2>
-
-            <div class="row text-center">
-
-                <div class="col-md-4">
-                    <h4>Trusted Professionals</h4>
-                    <p>Verified and skilled service providers.</p>
-                </div>
-
-                <div class="col-md-4">
-                    <h4>Quick Booking</h4>
-                    <p>Book services easily within minutes.</p>
-                </div>
-
-                <div class="col-md-4">
-                    <h4>24/7 Support</h4>
-                    <p>We are always here to help you.</p>
-                </div>
-
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div>
+                <strong>@Model.TotalServices</strong>
+                <span>Services</span>
             </div>
 
+            <div>
+                <strong>@Model.TotalCategories</strong>
+                <span>Categories</span>
+            </div>
+
+            <div>
+                <strong>@Model.CompletedBookings</strong>
+                <span>Completed Jobs</span>
+            </div>
+
+            <div>
+                <strong>@Model.TotalReviews</strong>
+                <span>Customer Reviews</span>
+            </div>
         </div>
     </div>
+</section>
 
-</div>
+<section class="home-section">
+    <div class="container">
+        <div class="why-card">
+            <div>
+                <span>Why choose HomeCare</span>
+                <h2>Built for trust, speed, and clarity.</h2>
+                <p>
+                    HomeCare keeps the service journey organized for customers, providers,
+                    and admins with dedicated dashboards and transparent booking status.
+                </p>
+            </div>
+
+            <div class="why-list">
+                <div>Role-based dashboards</div>
+                <div>Provider job tracking</div>
+                <div>Customer booking history</div>
+                <div>Post-service reviews</div>
+            </div>
+        </div>
+    </div>
+</section>
