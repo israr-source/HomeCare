@@ -4,149 +4,94 @@
     ViewData["Title"] = "All Bookings";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <h2 class="mb-4">
-        Booking Management
-    </h2>
-
-    <div class="row mb-4">
-
-        <div class="col-md-4">
-
-            <div class="card border-warning shadow-sm">
-
-                <div class="card-body text-center">
-
-                    <h5>Pending Bookings</h5>
-
-                    <h2>@ViewBag.PendingCount</h2>
-
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Administration</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Booking Management</h1>
+                    <p>Monitor booking activity and status across the HomeCare platform.</p>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-md-4">
-
-            <div class="card border-primary shadow-sm">
-
-                <div class="card-body text-center">
-
-                    <h5>Accepted Bookings</h5>
-
-                    <h2>@ViewBag.AcceptedCount</h2>
-
-                </div>
-
+        <div class="dashboard-stats-grid cols-3">
+            <div class="dashboard-stat-card warning">
+                <h3>Pending Bookings</h3>
+                <strong>@ViewBag.PendingCount</strong>
             </div>
 
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card border-success shadow-sm">
-
-                <div class="card-body text-center">
-
-                    <h5>Completed Bookings</h5>
-
-                    <h2>@ViewBag.CompletedCount</h2>
-
-                </div>
-
+            <div class="dashboard-stat-card primary">
+                <h3>Accepted Bookings</h3>
+                <strong>@ViewBag.AcceptedCount</strong>
             </div>
 
+            <div class="dashboard-stat-card success">
+                <h3>Completed Bookings</h3>
+                <strong>@ViewBag.CompletedCount</strong>
+            </div>
         </div>
 
+        <div class="dashboard-panel">
+            <div class="dashboard-table-wrap">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Service</th>
+                            <th>Address</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            @foreach (var booking in Model)
+                            {
+                                <tr>
+                                    <td>@booking.Customer?.FullName</td>
+                                    <td>@booking.Service?.Name</td>
+                                    <td>@booking.Address</td>
+                                    <td>@booking.BookingDate</td>
+                                    <td>
+                                        @if (booking.Status == "Pending")
+                                        {
+                                            <span class="dashboard-badge pending">Pending</span>
+                                        }
+                                        else if (booking.Status == "Accepted")
+                                        {
+                                            <span class="dashboard-badge accepted">Accepted</span>
+                                        }
+                                        else if (booking.Status == "Completed")
+                                        {
+                                            <span class="dashboard-badge completed">Completed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="dashboard-badge neutral">@booking.Status</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="dashboard-empty">
+                                    No bookings found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <table class="table table-bordered table-striped">
-
-        <thead>
-
-            <tr>
-                <th>Customer</th>
-                <th>Service</th>
-                <th>Address</th>
-                <th>Date</th>
-                <th>Status</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            @if (Model.Any())
-            {
-                @foreach (var booking in Model)
-                {
-                    <tr>
-
-                        <td>
-                            @booking.Customer?.FullName
-                        </td>
-
-                        <td>
-                            @booking.Service?.Name
-                        </td>
-
-                        <td>
-                            @booking.Address
-                        </td>
-
-                        <td>
-                            @booking.BookingDate
-                        </td>
-
-                        <td>
-
-                            @if (booking.Status == "Pending")
-                            {
-                                <span class="badge bg-warning text-dark">
-                                    Pending
-                                </span>
-                            }
-                            else if (booking.Status == "Accepted")
-                            {
-                                <span class="badge bg-primary">
-                                    Accepted
-                                </span>
-                            }
-                            else if (booking.Status == "Completed")
-                            {
-                                <span class="badge bg-success">
-                                    Completed
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">
-                                    @booking.Status
-                                </span>
-                            }
-
-                        </td>
-
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-
-                    <td colspan="5" class="text-center">
-
-                        No bookings found.
-
-                    </td>
-
-                </tr>
-            }
-
-        </tbody>
-
-    </table>
-
-</div>
+</section>

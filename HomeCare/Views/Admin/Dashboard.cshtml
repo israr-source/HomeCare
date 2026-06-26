@@ -4,68 +4,73 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <h2 class="mb-4">
-        Admin Dashboard
-    </h2>
-
-    <div class="row g-4">
-
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Total Customers</h5>
-                    <h2>@Model.TotalCustomers</h2>
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Admin overview</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Admin Dashboard</h1>
+                    <p>Monitor platform activity, users, services, and booking performance.</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Total Providers</h5>
-                    <h2>@Model.TotalProviders</h2>
-                </div>
+        <div class="dashboard-stats-grid cols-3">
+            <div class="dashboard-stat-card">
+                <h3>Total Customers</h3>
+                <strong>@Model.TotalCustomers</strong>
+            </div>
+
+            <div class="dashboard-stat-card">
+                <h3>Total Providers</h3>
+                <strong>@Model.TotalProviders</strong>
+            </div>
+
+            <div class="dashboard-stat-card primary">
+                <h3>Total Services</h3>
+                <strong>@Model.TotalServices</strong>
+            </div>
+
+            <div class="dashboard-stat-card">
+                <h3>Total Bookings</h3>
+                <strong>@Model.TotalBookings</strong>
+            </div>
+
+            <div class="dashboard-stat-card success">
+                <h3>Completed Jobs</h3>
+                <strong>@Model.CompletedBookings</strong>
+            </div>
+
+            <div class="dashboard-stat-card">
+                <h3>Total Reviews</h3>
+                <strong>@Model.TotalReviews</strong>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Total Services</h5>
-                    <h2>@Model.TotalServices</h2>
+        <div class="dashboard-panel">
+            <div class="dashboard-panel-heading">
+                <div>
+                    <span>Administration</span>
+                    <h2>Platform management</h2>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Total Bookings</h5>
-                    <h2>@Model.TotalBookings</h2>
-                </div>
+            <div class="dashboard-actions">
+                <a asp-action="Users"
+                   class="btn app-btn-primary">
+                    Manage Users
+                </a>
+
+                <a asp-action="Bookings"
+                   class="btn app-btn-outline">
+                    View Bookings
+                </a>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Completed Jobs</h5>
-                    <h2>@Model.CompletedBookings</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5>Total Reviews</h5>
-                    <h2>@Model.TotalReviews</h2>
-                </div>
-            </div>
-        </div>
-
     </div>
-
-</div>
+</section>

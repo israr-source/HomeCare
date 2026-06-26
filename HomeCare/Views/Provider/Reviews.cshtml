@@ -4,96 +4,59 @@
     ViewData["Title"] = "Provider Reviews";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <h2 class="mb-4">
-        Provider Reviews
-    </h2>
-
-    <div class="row mb-4">
-
-        <div class="col-md-6">
-
-            <div class="card">
-
-                <div class="card-body">
-
-                    <h4>
-                        Average Rating
-                    </h4>
-
-                    <h2>
-                        @ViewBag.AverageRating
-                    </h2>
-
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Provider feedback</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Provider Reviews</h1>
+                    <p>See customer ratings and feedback for your completed jobs.</p>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-md-6">
-
-            <div class="card">
-
-                <div class="card-body">
-
-                    <h4>
-                        Total Reviews
-                    </h4>
-
-                    <h2>
-                        @ViewBag.TotalReviews
-                    </h2>
-
-                </div>
-
+        <div class="dashboard-stats-grid cols-2">
+            <div class="dashboard-stat-card primary">
+                <h3>Average Rating</h3>
+                <strong>@ViewBag.AverageRating</strong>
             </div>
 
+            <div class="dashboard-stat-card">
+                <h3>Total Reviews</h3>
+                <strong>@ViewBag.TotalReviews</strong>
+            </div>
         </div>
 
+        <div class="dashboard-panel">
+            <div class="dashboard-table-wrap">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Customer?.FullName</td>
+                                <td>@item.Rating / 5</td>
+                                <td>@item.Comment</td>
+                                <td>@item.ReviewDate</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <table class="table table-bordered">
-
-        <thead>
-
-            <tr>
-                <th>Customer</th>
-                <th>Rating</th>
-                <th>Comment</th>
-                <th>Date</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-
-                    <td>
-                        @item.Customer?.FullName
-                    </td>
-
-                    <td>
-                        @item.Rating / 5
-                    </td>
-
-                    <td>
-                        @item.Comment
-                    </td>
-
-                    <td>
-                        @item.ReviewDate
-                    </td>
-
-                </tr>
-            }
-
-        </tbody>
-
-    </table>
-
-</div>
+</section>

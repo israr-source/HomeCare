@@ -4,228 +4,137 @@
     ViewData["Title"] = "Customer Dashboard";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Customer overview</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Customer Dashboard</h1>
+                    <p>Track your bookings, browse services, and manage your home-care requests.</p>
+                </div>
 
-        <h2>
-            Customer Dashboard
-        </h2>
+                <a asp-controller="Service"
+                   asp-action="Index"
+                   class="btn app-btn-primary">
+                    Browse Services
+                </a>
+            </div>
+        </div>
 
-        <a asp-controller="Service"
-           asp-action="Index"
-           class="btn btn-primary">
+        <div class="dashboard-stats-grid">
+            <div class="dashboard-stat-card">
+                <h3>Total Bookings</h3>
+                <strong>@Model.TotalBookings</strong>
+            </div>
 
-            Browse Services
+            <div class="dashboard-stat-card warning">
+                <h3>Pending</h3>
+                <strong>@Model.PendingBookings</strong>
+            </div>
 
-        </a>
+            <div class="dashboard-stat-card success">
+                <h3>Completed</h3>
+                <strong>@Model.CompletedBookings</strong>
+            </div>
 
+            <div class="dashboard-stat-card primary">
+                <h3>Reviews Given</h3>
+                <strong>@Model.TotalReviews</strong>
+            </div>
+        </div>
+
+        <div class="dashboard-panel">
+            <div class="dashboard-panel-heading">
+                <div>
+                    <span>Quick actions</span>
+                    <h2>Manage your bookings</h2>
+                </div>
+            </div>
+
+            <div class="dashboard-actions">
+                <a asp-controller="Service"
+                   asp-action="Index"
+                   class="btn app-btn-primary">
+                    Browse Services
+                </a>
+
+                <a asp-controller="Booking"
+                   asp-action="Index"
+                   class="btn app-btn-outline">
+                    My Bookings
+                </a>
+
+                <a asp-controller="Booking"
+                   asp-action="Create"
+                   class="btn app-btn-outline">
+                    Book a Service
+                </a>
+            </div>
+        </div>
+
+        <div class="dashboard-panel">
+            <div class="dashboard-panel-heading">
+                <div>
+                    <span>Recent activity</span>
+                    <h2>Recent Bookings</h2>
+                </div>
+            </div>
+
+            <div class="dashboard-table-wrap">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.RecentBookings.Any())
+                        {
+                            foreach (var booking in Model.RecentBookings)
+                            {
+                                <tr>
+                                    <td>@booking.Service?.Name</td>
+                                    <td>@booking.BookingDate</td>
+                                    <td>
+                                        @if (booking.Status == "Pending")
+                                        {
+                                            <span class="dashboard-badge pending">Pending</span>
+                                        }
+                                        else if (booking.Status == "Accepted")
+                                        {
+                                            <span class="dashboard-badge accepted">Accepted</span>
+                                        }
+                                        else if (booking.Status == "Completed")
+                                        {
+                                            <span class="dashboard-badge completed">Completed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="dashboard-badge neutral">@booking.Status</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="dashboard-empty">
+                                    No bookings found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <div class="row g-4">
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body text-center">
-
-                    <h6>Total Bookings</h6>
-
-                    <h2>@Model.TotalBookings</h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body text-center">
-
-                    <h6>Pending</h6>
-
-                    <h2 class="text-warning">
-
-                        @Model.PendingBookings
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body text-center">
-
-                    <h6>Completed</h6>
-
-                    <h2 class="text-success">
-
-                        @Model.CompletedBookings
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm">
-
-                <div class="card-body text-center">
-
-                    <h6>Reviews Given</h6>
-
-                    <h2>
-
-                        @Model.TotalReviews
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <hr class="my-5" />
-
-    <h4 class="mb-3">
-        Quick Actions
-    </h4>
-
-    <div class="mb-5">
-
-        <a asp-controller="Service"
-           asp-action="Index"
-           class="btn btn-primary me-2">
-
-            Browse Services
-
-        </a>
-
-        <a asp-controller="Booking"
-           asp-action="Index"
-           class="btn btn-success me-2">
-
-            My Bookings
-
-        </a>
-
-        <a asp-controller="Booking"
-           asp-action="Create"
-           class="btn btn-warning">
-
-            Book a Service
-
-        </a>
-
-    </div>
-
-    <h4 class="mb-3">
-
-        Recent Bookings
-
-    </h4>
-
-    <table class="table table-bordered table-striped">
-
-        <thead>
-
-            <tr>
-
-                <th>Service</th>
-
-                <th>Date</th>
-
-                <th>Status</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            @if (Model.RecentBookings.Any())
-            {
-                foreach (var booking in Model.RecentBookings)
-                {
-                    <tr>
-
-                        <td>
-
-                            @booking.Service?.Name
-
-                        </td>
-
-                        <td>
-
-                            @booking.BookingDate
-
-                        </td>
-
-                        <td>
-
-                            @if (booking.Status == "Pending")
-                            {
-                                <span class="badge bg-warning text-dark">
-                                    Pending
-                                </span>
-                            }
-                            else if (booking.Status == "Accepted")
-                            {
-                                <span class="badge bg-primary">
-                                    Accepted
-                                </span>
-                            }
-                            else if (booking.Status == "Completed")
-                            {
-                                <span class="badge bg-success">
-                                    Completed
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">
-                                    @booking.Status
-                                </span>
-                            }
-
-                        </td>
-
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-
-                    <td colspan="3"
-                        class="text-center">
-
-                        No bookings found.
-
-                    </td>
-
-                </tr>
-            }
-
-        </tbody>
-
-    </table>
-
-</div>
+</section>

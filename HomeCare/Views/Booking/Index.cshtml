@@ -4,70 +4,82 @@
     ViewData["Title"] = "My Bookings";
 }
 
-<div class="container py-5">
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
 
-    <div class="d-flex justify-content-between mb-4">
+<section class="booking-page">
+    <div class="container">
+        <div class="booking-list-heading">
+            <span>Your bookings</span>
+            <div class="booking-list-heading-row">
+                <div>
+                    <h1>My Bookings</h1>
+                    <p>View your service requests, track status, and leave reviews for completed jobs.</p>
+                </div>
 
-        <h2>My Bookings</h2>
+                <a asp-action="Create"
+                   class="btn app-btn-primary">
+                    Book Service
+                </a>
+            </div>
+        </div>
 
-        <a asp-action="Create"
-           class="btn btn-primary">
+        <div class="booking-list-panel">
+            <div class="dashboard-table-wrap">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Address</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-            Book Service
-
-        </a>
-
-    </div>
-
-    <table class="table table-bordered table-striped">
-
-        <thead>
-
-            <tr>
-                <th>Service</th>
-                <th>Address</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-
-                    <td>@item.Service?.Name</td>
-
-                    <td>@item.Address</td>
-
-                    <td>@item.BookingDate</td>
-
-                    <td>@item.Status</td>
-
-                    <td>
-
-                        @if (item.Status == "Completed")
+                    <tbody>
+                        @foreach (var item in Model)
                         {
-                            <a asp-controller="Review"
-                               asp-action="Create"
-                               asp-route-bookingId="@item.Id"
-                               class="btn btn-warning btn-sm">
-
-                                Leave Review
-
-                            </a>
+                            <tr>
+                                <td>@item.Service?.Name</td>
+                                <td>@item.Address</td>
+                                <td>@item.BookingDate</td>
+                                <td>
+                                    @if (item.Status == "Pending")
+                                    {
+                                        <span class="dashboard-badge pending">@item.Status</span>
+                                    }
+                                    else if (item.Status == "Accepted")
+                                    {
+                                        <span class="dashboard-badge accepted">@item.Status</span>
+                                    }
+                                    else if (item.Status == "Completed")
+                                    {
+                                        <span class="dashboard-badge completed">@item.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="dashboard-badge neutral">@item.Status</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Status == "Completed")
+                                    {
+                                        <a asp-controller="Review"
+                                           asp-action="Create"
+                                           asp-route-bookingId="@item.Id"
+                                           class="btn app-btn-outline btn-sm">
+                                            Leave Review
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
                         }
-
-                    </td>
-
-                </tr>
-            }
-
-        </tbody>
-
-    </table>
-
-</div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
