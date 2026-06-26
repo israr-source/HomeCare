@@ -4,14 +4,85 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="navbar-nav align-items-lg-center gap-lg-2">
 
     @if (SignInManager.IsSignedIn(User))
     {
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+
+                <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">
+                    Dashboard
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link" asp-controller="Admin" asp-action="Users">
+                    Users
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link" asp-controller="Admin" asp-action="Bookings">
+                    Bookings
+                </a>
+
+            </li>
+        }
+        else if (User.IsInRole("Customer"))
+        {
+            <li class="nav-item">
+
+                <a class="nav-link" asp-controller="Customer" asp-action="Dashboard">
+                    Dashboard
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link" asp-controller="Booking" asp-action="Index">
+                    My Bookings
+                </a>
+
+            </li>
+        }
+        else if (User.IsInRole("Provider"))
+        {
+            <li class="nav-item">
+
+                <a class="nav-link" asp-controller="Provider" asp-action="Dashboard">
+                    Dashboard
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link" asp-controller="Provider" asp-action="AvailableJobs">
+                    Available Jobs
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link" asp-controller="Provider" asp-action="MyJobs">
+                    My Jobs
+                </a>
+
+            </li>
+        }
+
         <li class="nav-item">
 
             <a id="manage"
-               class="nav-link text-dark"
+               class="nav-link app-user-link"
                asp-area="Identity"
                asp-page="/Account/Manage/Index"
                title="Manage">
@@ -32,7 +103,7 @@
 
                 <button id="logout"
                         type="submit"
-                        class="nav-link btn btn-link text-dark border-0">
+                        class="btn app-btn-outline">
 
                     Logout
 
@@ -46,7 +117,7 @@
     {
         <li class="nav-item">
 
-            <a class="nav-link text-dark"
+            <a class="btn app-btn-ghost"
                id="register"
                asp-controller="Account"
                asp-action="RegisterOptions">
@@ -59,7 +130,7 @@
 
         <li class="nav-item">
 
-            <a class="nav-link text-dark"
+            <a class="btn app-btn-primary"
                id="login"
                asp-area="Identity"
                asp-page="/Account/Login">

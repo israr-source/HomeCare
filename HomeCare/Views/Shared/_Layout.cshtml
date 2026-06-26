@@ -10,15 +10,19 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <nav class="navbar navbar-expand-lg app-navbar">
             <div class="container">
 
-                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
-                    HomeCare
+                <a class="navbar-brand app-brand" asp-controller="Home" asp-action="Index">
+                    <span class="app-brand-mark">HC</span>
+                    <span>HomeCare</span>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarContent">
+                        data-bs-target="#navbarContent"
+                        aria-controls="navbarContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
 
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -34,20 +38,8 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Services">
+                            <a class="nav-link" asp-controller="Service" asp-action="Index">
                                 Services
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                About
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Contact
                             </a>
                         </li>
 
@@ -60,23 +52,55 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="app-main">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="bg-dark text-white text-center py-3 mt-5">
+    <footer class="app-footer">
 
         <div class="container">
 
-            <p class="mb-1">
-                &copy; 2026 - HomeCare
-            </p>
+            <div class="row g-4 align-items-start">
 
-            <small>
-                Your trusted home service platform.
-            </small>
+                <div class="col-md-5">
+
+                    <div class="app-footer-brand">
+                        HomeCare
+                    </div>
+
+                    <p class="app-footer-text">
+                        A trusted home-service marketplace for booking reliable professionals quickly and confidently.
+                    </p>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <h6 class="app-footer-title">Explore</h6>
+
+                    <a asp-controller="Home" asp-action="Index">Home</a>
+                    <a asp-controller="Service" asp-action="Index">Services</a>
+                    <a asp-controller="Account" asp-action="RegisterOptions">Register</a>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <h6 class="app-footer-title">Why HomeCare</h6>
+
+                    <p class="app-footer-text">
+                        Simple booking, role-based dashboards, provider job tracking, and customer reviews in one platform.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="app-footer-bottom">
+                &copy; 2026 HomeCare. All rights reserved.
+            </div>
 
         </div>
 
