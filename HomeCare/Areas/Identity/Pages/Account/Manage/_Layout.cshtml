@@ -1,0 +1,36 @@
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+}
+
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Account settings</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Manage Profile</h1>
+                    <p>Update your account details, email, and password.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row gx-4">
+            <div class="col-lg-3 col-md-4 mb-4">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-lg-9 col-md-8">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

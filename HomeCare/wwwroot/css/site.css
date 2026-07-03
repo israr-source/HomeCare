@@ -385,8 +385,9 @@ div.text-danger.validation-summary-errors,
     padding: 0.85rem 1rem;
 }
 
-div.text-danger:empty {
-    display: none;
+div.text-danger:empty,
+.validation-summary-valid {
+    display: none !important;
 }
 
 /* Shared badges */
