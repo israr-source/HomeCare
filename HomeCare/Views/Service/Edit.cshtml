@@ -1,0 +1,74 @@
+@model HomeCare.Models.Service
+
+@{
+    ViewData["Title"] = "Edit Service";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<section class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-heading">
+            <span>Administration</span>
+            <div class="dashboard-heading-row">
+                <div>
+                    <h1>Edit Service</h1>
+                    <p>Update service details, pricing, and category.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-panel hc-form-layout">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="All" class="hc-validation"></div>
+
+                <div class="hc-field">
+                    <label asp-for="Name" class="form-label">Service Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter service name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="hc-field">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              placeholder="Describe what this service includes"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="hc-field">
+                    <label asp-for="Price" class="form-label">Price</label>
+                    <input asp-for="Price" class="form-control" placeholder="Enter price in BDT" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="hc-field">
+                    <label asp-for="ServiceCategoryId" class="form-label">Category</label>
+                    <select asp-for="ServiceCategoryId"
+                            asp-items="ViewBag.Categories"
+                            class="form-select">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="ServiceCategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="hc-form-actions">
+                    <button type="submit" class="btn app-btn-primary">
+                        Save Changes
+                    </button>
+
+                    <a asp-action="Index" class="btn app-btn-outline">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
