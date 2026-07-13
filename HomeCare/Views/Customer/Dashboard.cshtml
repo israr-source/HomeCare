@@ -1,4 +1,4 @@
-﻿@model HomeCare.ViewModels.CustomerDashboardViewModel
+@model HomeCare.ViewModels.CustomerDashboardViewModel
 
 @{
     ViewData["Title"] = "Customer Dashboard";
@@ -115,6 +115,10 @@
                                         else if (booking.Status == "Completed")
                                         {
                                             <span class="dashboard-badge completed">Completed</span>
+                                        }
+                                        else if (booking.Status == "Cancelled")
+                                        {
+                                            <span class="dashboard-badge danger">Cancelled</span>
                                         }
                                         else
                                         {

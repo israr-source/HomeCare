@@ -427,7 +427,8 @@ div.text-danger:empty,
     color: var(--hc-neutral-text);
 }
 
-.hc-badge.danger {
+.hc-badge.danger,
+.dashboard-badge.danger {
     background: var(--hc-danger-bg);
     color: var(--hc-danger-text);
 }

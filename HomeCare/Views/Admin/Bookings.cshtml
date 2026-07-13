@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HomeCare.Models.Booking>
+@model IEnumerable<HomeCare.Models.Booking>
 
 @{
     ViewData["Title"] = "All Bookings";
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="dashboard-stats-grid cols-3">
+        <div class="dashboard-stats-grid cols-4">
             <div class="dashboard-stat-card warning">
                 <h3>Pending Bookings</h3>
                 <strong>@ViewBag.PendingCount</strong>
@@ -34,6 +34,11 @@
             <div class="dashboard-stat-card success">
                 <h3>Completed Bookings</h3>
                 <strong>@ViewBag.CompletedCount</strong>
+            </div>
+
+            <div class="dashboard-stat-card danger" style="border-color: var(--hc-danger-border);">
+                <h3 style="color: var(--hc-danger-text);">Cancelled Bookings</h3>
+                <strong>@ViewBag.CancelledCount</strong>
             </div>
         </div>
 
@@ -72,6 +77,10 @@
                                         else if (booking.Status == "Completed")
                                         {
                                             <span class="dashboard-badge completed">Completed</span>
+                                        }
+                                        else if (booking.Status == "Cancelled")
+                                        {
+                                            <span class="dashboard-badge danger">Cancelled</span>
                                         }
                                         else
                                         {

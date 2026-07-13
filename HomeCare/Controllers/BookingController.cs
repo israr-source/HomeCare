@@ -1,4 +1,4 @@
-﻿using HomeCare.Models;
+using HomeCare.Models;
 using HomeCare.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +16,7 @@ namespace HomeCare.Controllers
 
         public BookingController(
             ApplicationDbContext context,
+
             UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -30,6 +31,11 @@ namespace HomeCare.Controllers
             var bookings = _context.Bookings
                 .Include(b => b.Service)
                 .Where(b => b.CustomerId == user.Id)
+                .ToList();
+
+            ViewBag.ReviewedBookingIds = _context.Reviews
+                .Where(r => r.CustomerId == user.Id)
+                .Select(r => r.BookingId)
                 .ToList();
 
             return View(bookings);
@@ -99,6 +105,36 @@ namespace HomeCare.Controllers
                 .FirstOrDefault(s => s.Id == booking.ServiceId);
 
             return View(booking);
+        }
+
+        // POST CANCEL
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (booking.CustomerId != user.Id)
+            {
+                return Forbid();
+            }
+
+            if (booking.Status != "Pending")
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            booking.Status = "Cancelled";
+            booking.ProviderId = null;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

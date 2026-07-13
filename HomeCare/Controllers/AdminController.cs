@@ -1,4 +1,4 @@
-﻿using HomeCare.Models;
+using HomeCare.Models;
 using HomeCare.Models.Identity;
 using HomeCare.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -112,6 +112,9 @@ namespace HomeCare.Controllers
 
             ViewBag.CompletedCount =
                 bookings.Count(b => b.Status == "Completed");
+
+            ViewBag.CancelledCount =
+                bookings.Count(b => b.Status == "Cancelled");
 
             return View(bookings);
         }

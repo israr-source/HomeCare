@@ -1,4 +1,4 @@
-﻿using HomeCare.Models;
+using HomeCare.Models;
 using HomeCare.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -44,6 +44,12 @@ namespace HomeCare.Controllers
                 return RedirectToAction("Index", "Booking");
             }
 
+            if (await _context.Reviews.AnyAsync(r => r.BookingId == bookingId))
+            {
+                TempData["StatusMessage"] = "Error: This booking has already been reviewed.";
+                return RedirectToAction("Index", "Booking");
+            }
+
             var review = new Review
             {
                 BookingId = bookingId
@@ -72,6 +78,12 @@ namespace HomeCare.Controllers
 
             if (booking.Status != "Completed" || booking.ProviderId == null)
             {
+                return RedirectToAction("Index", "Booking");
+            }
+
+            if (await _context.Reviews.AnyAsync(r => r.BookingId == review.BookingId))
+            {
+                TempData["StatusMessage"] = "Error: This booking has already been reviewed.";
                 return RedirectToAction("Index", "Booking");
             }
 
