@@ -25,12 +25,13 @@ namespace HomeCare.Controllers
         // DASHBOARD
         public async Task<IActionResult> Dashboard()
         {
-            var users = _userManager.Users.ToList();
+            var customers = await _userManager.GetUsersInRoleAsync("Customer");
+            var providers = await _userManager.GetUsersInRoleAsync("Provider");
 
             var model = new AdminDashboardViewModel
             {
-                TotalCustomers = 0,
-                TotalProviders = 0,
+                TotalCustomers = customers.Count,
+                TotalProviders = providers.Count,
 
                 TotalServices = _context.Services.Count(),
 
@@ -42,26 +43,20 @@ namespace HomeCare.Controllers
                 TotalReviews = _context.Reviews.Count()
             };
 
-            foreach (var user in users)
-            {
-                if (await _userManager.IsInRoleAsync(user, "Customer"))
-                {
-                    model.TotalCustomers++;
-                }
-
-                if (await _userManager.IsInRoleAsync(user, "Provider"))
-                {
-                    model.TotalProviders++;
-                }
-            }
-
             return View(model);
         }
 
         // USER MANAGEMENT
         public async Task<IActionResult> Users(string searchTerm)
         {
-            var userList = _userManager.Users.ToList();
+            var query = _userManager.Users.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(u => u.FullName.Contains(searchTerm) || u.Email.Contains(searchTerm));
+            }
+
+            var userList = query.ToList();
 
             var users = new List<UserListViewModel>();
 
@@ -76,18 +71,6 @@ namespace HomeCare.Controllers
                     Email = user.Email ?? "N/A",
                     Role = roles.FirstOrDefault() ?? "No Role"
                 });
-            }
-
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                users = users
-                    .Where(u =>
-                        u.FullName.Contains(searchTerm,
-                            StringComparison.OrdinalIgnoreCase)
-                        ||
-                        u.Email.Contains(searchTerm,
-                            StringComparison.OrdinalIgnoreCase))
-                    .ToList();
             }
 
             ViewBag.SearchTerm = searchTerm;

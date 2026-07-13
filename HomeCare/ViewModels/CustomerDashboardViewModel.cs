@@ -1,4 +1,4 @@
-﻿using HomeCare.Models;
+using HomeCare.Models;
 
 namespace HomeCare.ViewModels
 {
@@ -9,6 +9,8 @@ namespace HomeCare.ViewModels
         public int PendingBookings { get; set; }
 
         public int CompletedBookings { get; set; }
+
+        public int CancelledBookings { get; set; }
 
         public int TotalReviews { get; set; }
 

@@ -70,6 +70,7 @@ namespace HomeCare.Controllers
 
         // POST CREATE
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Booking booking)
         {
             if (booking.BookingDate <= DateTime.Now)
@@ -79,16 +80,22 @@ namespace HomeCare.Controllers
                     "Booking date must be in the future.");
             }
 
+            if (!await _context.Services.AnyAsync(s => s.Id == booking.ServiceId))
+            {
+                ModelState.AddModelError(
+                    nameof(Booking.ServiceId),
+                    "The selected service does not exist.");
+            }
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
 
                 booking.CustomerId = user.Id;
-
                 booking.Status = "Pending";
+                booking.ProviderId = null;
 
                 _context.Bookings.Add(booking);
-
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");

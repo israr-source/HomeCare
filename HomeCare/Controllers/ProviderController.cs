@@ -1,4 +1,4 @@
-﻿using HomeCare.Models;
+using HomeCare.Models;
 using HomeCare.Models.Identity;
 using HomeCare.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -28,6 +28,7 @@ namespace HomeCare.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(ProviderRegisterViewModel model)
         {
             if (ModelState.IsValid)

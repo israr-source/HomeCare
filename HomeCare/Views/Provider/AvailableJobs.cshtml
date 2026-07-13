@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HomeCare.Models.Booking>
+@model IEnumerable<HomeCare.Models.Booking>
 
 @{
     ViewData["Title"] = "Available Jobs";
@@ -35,25 +35,36 @@
                     </thead>
 
                     <tbody>
-                        @foreach (var item in Model)
+                        @if (Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Customer?.FullName</td>
+                                    <td>@item.Service?.Name</td>
+                                    <td>@item.Address</td>
+                                    <td>@item.BookingDate</td>
+                                    <td>
+                                        <span class="dashboard-badge pending">@item.Status</span>
+                                    </td>
+                                    <td>
+                                        <form asp-action="AcceptJob"
+                                              asp-route-id="@item.Id"
+                                              method="post">
+                                            <button type="submit"
+                                                    class="btn app-btn-primary btn-sm">
+                                                Accept Job
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td>@item.Customer?.FullName</td>
-                                <td>@item.Service?.Name</td>
-                                <td>@item.Address</td>
-                                <td>@item.BookingDate</td>
-                                <td>
-                                    <span class="dashboard-badge pending">@item.Status</span>
-                                </td>
-                                <td>
-                                    <form asp-action="AcceptJob"
-                                          asp-route-id="@item.Id"
-                                          method="post">
-                                        <button type="submit"
-                                                class="btn app-btn-primary btn-sm">
-                                            Accept Job
-                                        </button>
-                                    </form>
+                                <td colspan="6" class="dashboard-empty">
+                                    No pending jobs available at this time.
                                 </td>
                             </tr>
                         }

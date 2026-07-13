@@ -1,4 +1,4 @@
-﻿using HomeCare.Models;
+using HomeCare.Models;
 using HomeCare.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +32,7 @@ namespace HomeCare.Controllers
 
         // POST CREATE
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(ServiceCategory category)
         {
             if (ModelState.IsValid)
@@ -62,6 +63,7 @@ namespace HomeCare.Controllers
 
         // POST EDIT
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(ServiceCategory category)
         {
             if (ModelState.IsValid)
@@ -92,6 +94,7 @@ namespace HomeCare.Controllers
 
         // POST DELETE
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             var category = _context.ServiceCategories.Find(id);

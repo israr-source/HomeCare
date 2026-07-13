@@ -1,4 +1,4 @@
-﻿using HomeCare.Models;
+using HomeCare.Models;
 using HomeCare.Models.Identity;
 using HomeCare.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +29,7 @@ namespace HomeCare.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(CustomerRegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -83,6 +84,8 @@ namespace HomeCare.Controllers
                 PendingBookings = bookings.Count(b => b.Status == "Pending"),
 
                 CompletedBookings = bookings.Count(b => b.Status == "Completed"),
+
+                CancelledBookings = bookings.Count(b => b.Status == "Cancelled"),
 
                 TotalReviews = reviews.Count,
 

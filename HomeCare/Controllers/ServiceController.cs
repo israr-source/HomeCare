@@ -79,6 +79,7 @@ namespace HomeCare.Controllers
         // POST CREATE (ADMIN ONLY)
         [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Service service)
         {
             if (ModelState.IsValid)
@@ -121,6 +122,7 @@ namespace HomeCare.Controllers
         // POST EDIT (ADMIN ONLY)
         [Authorize(Roles = "Admin")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Service service)
         {
             if (ModelState.IsValid)
@@ -159,6 +161,7 @@ namespace HomeCare.Controllers
         // POST DELETE (ADMIN ONLY)
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var service = await _context.Services.FindAsync(id);
