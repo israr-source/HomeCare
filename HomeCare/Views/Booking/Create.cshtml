@@ -60,6 +60,8 @@
 
                         <input asp-for="BookingDate"
                                type="datetime-local"
+                               asp-format="{0:yyyy-MM-ddTHH:mm}"
+                               step="60"
                                class="form-control" />
                     </div>
 
@@ -96,7 +98,7 @@
 
                     <div class="summary-row">
                         <span>Price</span>
-                        <strong>BDT @selectedService.Price</strong>
+                        <strong>@(selectedService.Price > 0 ? $"BDT {selectedService.Price:0.##}" : "N/A")</strong>
                     </div>
 
                     <p>

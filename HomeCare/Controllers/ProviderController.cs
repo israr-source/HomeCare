@@ -4,6 +4,7 @@ using HomeCare.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace HomeCare.Controllers
@@ -24,6 +25,7 @@ namespace HomeCare.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            ViewBag.Categories = new SelectList(_context.ServiceCategories, "Name", "Name");
             return View();
         }
 
@@ -31,6 +33,14 @@ namespace HomeCare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(ProviderRegisterViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                if (!_context.ServiceCategories.Any(c => c.Name == model.ServiceType))
+                {
+                    ModelState.AddModelError("ServiceType", "The selected category does not exist.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 var provider = new ApplicationUser
@@ -59,6 +69,7 @@ namespace HomeCare.Controllers
                 }
             }
 
+            ViewBag.Categories = new SelectList(_context.ServiceCategories, "Name", "Name", model.ServiceType);
             return View(model);
         }
 
@@ -67,9 +78,14 @@ namespace HomeCare.Controllers
         {
             var provider = await _userManager.GetUserAsync(User);
 
-            var bookings = _context.Bookings
+            var myBookings = _context.Bookings
                 .Where(b => b.ProviderId == provider.Id)
                 .ToList();
+
+            var pendingJobsCount = await _context.Bookings
+                .Include(b => b.Service)
+                    .ThenInclude(s => s.ServiceCategory)
+                .CountAsync(b => b.Status == "Pending" && b.ProviderId == null && b.Service.ServiceCategory.Name == provider.ServiceType);
 
             var reviews = _context.Reviews
                 .Where(r => r.ProviderId == provider.Id)
@@ -77,14 +93,10 @@ namespace HomeCare.Controllers
 
             var model = new ProviderDashboardViewModel
             {
-                PendingJobs = bookings.Count(b => b.Status == "Pending"),
-
-                AcceptedJobs = bookings.Count(b => b.Status == "Accepted"),
-
-                CompletedJobs = bookings.Count(b => b.Status == "Completed"),
-
+                PendingJobs = pendingJobsCount,
+                AcceptedJobs = myBookings.Count(b => b.Status == "Accepted"),
+                CompletedJobs = myBookings.Count(b => b.Status == "Completed"),
                 TotalReviews = reviews.Count,
-
                 AverageRating = reviews.Any()
                     ? reviews.Average(r => r.Rating)
                     : 0
@@ -94,13 +106,16 @@ namespace HomeCare.Controllers
         }
 
         [Authorize(Roles = "Provider")]
-        public IActionResult AvailableJobs()
+        public async Task<IActionResult> AvailableJobs()
         {
-            var bookings = _context.Bookings
+            var provider = await _userManager.GetUserAsync(User);
+
+            var bookings = await _context.Bookings
                 .Include(b => b.Service)
+                    .ThenInclude(s => s.ServiceCategory)
                 .Include(b => b.Customer)
-                .Where(b => b.Status == "Pending")
-                .ToList();
+                .Where(b => b.Status == "Pending" && b.ProviderId == null && b.Service.ServiceCategory.Name == provider.ServiceType)
+                .ToListAsync();
 
             return View(bookings);
         }
@@ -110,7 +125,10 @@ namespace HomeCare.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AcceptJob(int id)
         {
-            var booking = await _context.Bookings.FindAsync(id);
+            var booking = await _context.Bookings
+                .Include(b => b.Service)
+                    .ThenInclude(s => s.ServiceCategory)
+                .FirstOrDefaultAsync(b => b.Id == id);
 
             if (booking == null)
             {
@@ -119,8 +137,9 @@ namespace HomeCare.Controllers
 
             var provider = await _userManager.GetUserAsync(User);
 
-            if (booking.Status != "Pending" || booking.ProviderId != null)
+            if (booking.Status != "Pending" || booking.ProviderId != null || booking.Service.ServiceCategory.Name != provider.ServiceType)
             {
+                TempData["ErrorMessage"] = "This job is no longer available or does not match your service category.";
                 return RedirectToAction(nameof(AvailableJobs));
             }
 
@@ -195,6 +214,75 @@ namespace HomeCare.Controllers
                 : 0;
 
             return View(reviews);
+        }
+
+        [Authorize(Roles = "Provider")]
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ProviderProfileViewModel
+            {
+                Email = user.Email,
+                FullName = user.FullName,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
+                ServiceType = user.ServiceType
+            };
+
+            ViewBag.Categories = new SelectList(_context.ServiceCategories, "Name", "Name", model.ServiceType);
+            return View(model);
+        }
+
+        [Authorize(Roles = "Provider")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Profile(ProviderProfileViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            model.Email = user.Email; // Keep it unchanged
+
+            if (ModelState.IsValid)
+            {
+                if (!_context.ServiceCategories.Any(c => c.Name == model.ServiceType))
+                {
+                    ModelState.AddModelError("ServiceType", "The selected category does not exist.");
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                user.FullName = model.FullName;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Address = model.Address;
+                user.ServiceType = model.ServiceType;
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    TempData["SuccessMessage"] = "Profile updated successfully.";
+                    return RedirectToAction(nameof(Profile));
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            ViewBag.Categories = new SelectList(_context.ServiceCategories, "Name", "Name", model.ServiceType);
+            return View(model);
         }
     }
 }

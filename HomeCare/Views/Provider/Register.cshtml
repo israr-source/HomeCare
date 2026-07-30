@@ -60,8 +60,26 @@
                     </div>
 
                     <div class="auth-field">
-                        <label asp-for="ServiceType" class="form-label">Service Type</label>
-                        <input asp-for="ServiceType" class="form-control" placeholder="Cleaning, plumbing, AC repair..." />
+                        <label asp-for="ServiceType" class="form-label">Service Category</label>
+                        
+                        @{
+                            var categories = ViewBag.Categories as SelectList;
+                            bool hasCategories = categories != null && categories.Any();
+                        }
+
+                        @if (!hasCategories)
+                        {
+                            <div class="alert alert-warning" style="margin-bottom: 0.5rem; padding: 0.75rem; border-radius: 4px; background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; font-size: 0.875rem;">
+                                No service categories are available. Please contact an administrator.
+                            </div>
+                        }
+
+                        <select asp-for="ServiceType" 
+                                asp-items="categories" 
+                                class="form-select" 
+                                disabled="@(!hasCategories ? "disabled" : null)">
+                            <option value="">-- Select a Category --</option>
+                        </select>
                         <span asp-validation-for="ServiceType" class="text-danger"></span>
                     </div>
 

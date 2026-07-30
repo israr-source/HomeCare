@@ -59,6 +59,7 @@ namespace HomeCare.Controllers
             }
 
             var booking = new Booking();
+            booking.BookingDate = DateTime.Now;
 
             if (serviceId.HasValue)
             {
